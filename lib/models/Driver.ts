@@ -32,6 +32,9 @@ const DriverSchema = new Schema({
     termsAccepted: {
         type: Boolean,
         required: true
+    },
+    region: {
+        type: String,
     }
 },
 {

@@ -22,7 +22,7 @@ const [data, setdata] = useState<User[]>([]);
     }
   return (
     <div>
-      <button type="submit" className='border p-2' onClick={handleSubmit}>I want Users Data</button>
+      <button type="submit" className='border p-2' onClick={handleSubmit}>I want Customers Data</button>
       <ul className='flex-col justify-center text-center'>
         {data.map(user => (
             <li key={user.id}>{user.name}</li>

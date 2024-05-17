@@ -1,13 +1,12 @@
-import { UUID } from "mongodb";
 import mongoose, { Schema } from "mongoose";
 
 const PaymentSchema = new Schema({
-    uniqueId:{
-        type: UUID,
-        required: true,
+    paymentId : {
+        type : String,
     },
-    TripId: {
-        type: UUID,
+    tripId: {
+        type: Schema.Types.ObjectId,
+        ref : 'Trip',
         required: true,
     },
     method: {
@@ -22,7 +21,6 @@ const PaymentSchema = new Schema({
         type: String, // cancelled || completed || pending
         required: true,
     }
-
 })
 
 const Payment = mongoose.model('Payment',PaymentSchema);

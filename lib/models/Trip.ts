@@ -1,12 +1,13 @@
 import mongoose, { Schema } from "mongoose";
-import {UUID } from "mongodb";
 const TripSchema = new Schema({
     customerId: {
-        type: UUID,
+        type: Schema.Types.ObjectId,
+        ref : 'Customer',
         required : true,
     },
     driverId: {
-        type: UUID,
+        type: Schema.Types.ObjectId,
+        ref : 'Driver',
         required : true,
     },
     status: {
@@ -20,6 +21,10 @@ const TripSchema = new Schema({
     },
     destination : {
         type: Object, // of type @types/Point 
+        required : true,
+    },
+    amount : {
+        type : String,
         required : true,
     }
 },

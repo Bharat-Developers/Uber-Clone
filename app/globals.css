@@ -26,6 +26,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 input{
+  margin: 2px;
   color: black;
 }
 
@@ -33,4 +34,12 @@ input{
   .text-balance {
     text-wrap: balance;
   }
+}
+button{
+  background-color: green;
+  color: white;
+  text-align: center;
+  padding: 3px;
+  border-radius: 5px;
+  margin: 2px;
 }

@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const connect = async () => {
+    if (!MONGODB_URI) {
+        throw new Error('MONGODB_URI environment variable is not defined');
+    }
+
     const connectionState = mongoose.connection.readyState;
 
     if (connectionState === 1) {
@@ -14,10 +18,8 @@ const connect = async () => {
         return;
     }
     try {
-        await mongoose.connect(MONGODB_URI!, {
+        await mongoose.connect(MONGODB_URI, {
             dbName: 'uber_clone',
-            useNewUrlParser: true, // Ensure using the new URL parser
-            useUnifiedTopology: true, // Ensure using the new server discover and monitoring engine
         });
         console.log('Connected to Database');
 
@@ -27,7 +29,7 @@ const connect = async () => {
         });
 
         mongoose.connection.on('error', (err) => {
-            console.log(`Mongoose connection error: ${err}`);
+            console.error(`Mongoose connection error: ${err}`);
         });
 
         mongoose.connection.on('disconnected', () => {

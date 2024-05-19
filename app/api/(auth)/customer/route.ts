@@ -3,7 +3,6 @@ import connect from "@/lib/db";
 import Customer from "@/lib/models/Customer";
 
 export const GET = async (request: NextRequest) => {
-  
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
 
@@ -18,7 +17,12 @@ export const GET = async (request: NextRequest) => {
         );
       }
       return new NextResponse(JSON.stringify(customer), { status: 200 });
-    } catch (error) {return new NextResponse(JSON.stringify({messgae : "Error in fectching customer"}), {status : 500})}
+    } catch (error) {
+      return new NextResponse(
+        JSON.stringify({ messgae: "Error in fectching customer" }),
+        { status: 500 }
+      );
+    }
   }
   try {
     await connect();
@@ -53,9 +57,9 @@ export const POST = async (request: Request) => {
   }
 };
 
-export const DELETE = async (request : Request) => {
-  const {searchParams} = new URL(request.url)
-  const id = searchParams.get('id');
+export const DELETE = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
 
   if (!id) {
     return new NextResponse(
@@ -63,24 +67,51 @@ export const DELETE = async (request : Request) => {
       { status: 400 }
     );
   }
-  
+
   try {
     await connect();
     const deleteCustomer = await Customer.findByIdAndDelete(id);
-    if (!deleteCustomer){
+    if (!deleteCustomer) {
       return new NextResponse(
-        JSON.stringify({message : 'Customer not Found!'}),
-        {status : 404}
-      )
+        JSON.stringify({ message: "Customer not Found!" }),
+        { status: 404 }
+      );
     }
     return new NextResponse(
-      JSON.stringify({message : 'Customer Deleted Successfully'}),
-      {status : 201}
-    )
-  }catch(error){
+      JSON.stringify({ message: "Customer Deleted Successfully" }),
+      { status: 201 }
+    );
+  } catch (error) {
     return new NextResponse(
-      JSON.stringify({message : 'Error Deleting Customer'}),
-      {status : 500}
-    )
+      JSON.stringify({ message: "Error Deleting Customer" }),
+      { status: 500 }
+    );
   }
-}
+};
+
+export const PUT = async (request: Request) => {
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  const body = await request.json();
+  if (!id) {
+    return new NextResponse(
+      JSON.stringify({ message: "Id require to Update" }),
+      { status: 404 }
+    );
+  }
+  try {
+    await connect();
+    const updateCustomer = await Customer.findByIdAndUpdate(id, body, {
+      new: true,
+    });
+    if (!updateCustomer) {
+      return new NextResponse(
+        JSON.stringify({ message: "Could not Update Customer" }),
+        { status: 404 }
+      );
+    }
+    return new NextResponse(JSON.stringify({message : 'Customer Updated Successfully'}), {status :  201})
+  } catch (error) {
+    return new NextResponse(JSON.stringify({message : 'Error updating the user'}), {status : 500})
+  }
+};

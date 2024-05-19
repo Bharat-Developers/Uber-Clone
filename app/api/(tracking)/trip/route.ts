@@ -36,3 +36,8 @@ export const POST = async (request: Request) => {
     );
   }
 };
+
+//Todo:
+// get Trip with object id
+// get Trip with customer and driver id
+// post trip status

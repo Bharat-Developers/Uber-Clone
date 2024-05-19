@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 const GetData = () => {
 
 interface User{
-    id : number;
+    _id : number;
     name : String;
 }
 const [data, setdata] = useState<User[]>([]);
@@ -25,7 +25,7 @@ const [data, setdata] = useState<User[]>([]);
       <button type="submit" className='border p-2' onClick={handleSubmit}>I want Customers Data</button>
       <ul className='flex-col justify-center text-center'>
         {data.map(user => (
-            <li key={user.id}>{user.name}</li>
+            <li key={user._id}>{user.name}</li>
         ))}
       </ul>
     </div>

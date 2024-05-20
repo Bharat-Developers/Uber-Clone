@@ -1,0 +1,106 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    background-color: #f7f7f7;
+    padding: 2rem;
+}
+
+.formBackground {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+}
+.formBackground:hover{
+    box-shadow: 2px 4px 8px gray;
+}
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+}
+
+.input {
+    width: 96%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 20px;
+}
+
+.continueButton {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+}
+
+.orContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.hr {
+    flex: 1;
+    height: 1px;
+    background-color: #ddd;
+    border: none;
+}
+
+.orText {
+    margin: 0 1rem;
+}
+
+.googleButton,
+.appleButton,
+.findAccountButton,
+.qrButton {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 40px;
+}
+
+.appleButton {
+    background-color: #000;
+    color: #fff;
+}
+
+.icon {
+    width: 25px;
+    margin-right: 0.5rem;
+    height: 22px;
+    background-color: teal;
+}
+
+.footerText {
+    font-size: 0.8rem;
+    color: #888;
+    text-align: center;
+    margin-top: 1rem;
+}

@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    width: 100vw;
+  }
+  
+  .box {
+    width: 100vw;
+    height: 15vh;
+    background-color: white;
+    /* border: 2px solid black; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .centeredbutton {
+    border-radius: 10px;
+    width: 95vw;
+    height: 8vh;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  

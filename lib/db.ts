@@ -16,8 +16,6 @@ const connect = async () => {
     try {
         await mongoose.connect(MONGODB_URI!, {
             dbName: 'uber_clone',
-            useNewUrlParser: true, // Ensure using the new URL parser
-            useUnifiedTopology: true, // Ensure using the new server discover and monitoring engine
         });
         console.log('Connected to Database');
 

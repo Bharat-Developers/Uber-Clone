@@ -1,6 +1,5 @@
-import mongoose, { models } from 'mongoose';
-
-const { Schema } = mongoose;
+import { ObjectId } from 'mongodb';
+import mongoose, { models ,Schema} from 'mongoose';
 
 const DriverSchema = new Schema({
     email: {
@@ -34,6 +33,17 @@ const DriverSchema = new Schema({
         required: true
     },
     region: {
+        type: String,
+    },
+    availablity: {
+        type: Boolean,
+        required: true
+    },
+    cabId: {
+        type: ObjectId,
+        required: true   
+    },
+    cabType: {
         type: String,
     }
 },

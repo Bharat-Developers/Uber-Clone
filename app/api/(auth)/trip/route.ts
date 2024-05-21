@@ -41,3 +41,4 @@ export const POST = async (request: Request) => {
 // get Trip with object id
 // get Trip with customer and driver id
 // post trip status
+// 

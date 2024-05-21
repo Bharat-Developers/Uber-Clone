@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import connect from "@/lib/db";
 import Driver from "@/lib/models/Driver";
 
+// fetching driver detials
 export const GET = async (request : Request) => {
   const {searchParams} = new URL(request.url)
   const id = searchParams.get('id');
@@ -27,6 +28,7 @@ export const GET = async (request : Request) => {
   }
 };
 
+//Creating driver account
 export const POST = async (request: Request) => {
   try {
     const body = await request.json();
@@ -52,6 +54,7 @@ export const POST = async (request: Request) => {
   }
 };
 
+//Delete Driver account
 export const DELETE = async (request : Request) => {
   try{
     const {searchParams} = new URL(request.url)
@@ -67,5 +70,28 @@ export const DELETE = async (request : Request) => {
     return new NextResponse(JSON.stringify({message : 'Driver Deleted Successfully'}), {status : 201})
   }catch(error){
     return new NextResponse(JSON.stringify({message : 'Error in Deleting Driver'}), {status : 500})
+  }
+}
+
+
+//Driver available to take ride | Driver not available
+
+export const PUT = async (request: Request) =>{
+  try{
+    const {searchParams} = new URL(request.url)
+    const id = searchParams.get('id');
+    if (!id){
+      return new NextResponse(JSON.stringify({message : 'ID needed to Delete Driver'}), {status : 404})
+    }
+    await connect();
+    const filter = { _id: id };
+    const update = { "$set" :{availablity:{"$not":"$availablity"} }};
+    let driver = await Driver.findOneAndUpdate(filter,[update]);
+    if(!driver){
+      return new NextResponse(JSON.stringify({message : 'Driver not found'}), {status : 404})
+    }
+    return new NextResponse(JSON.stringify({message : 'UPDATED availablity Successfully'}), {status : 201})
+  }catch(error){
+    return new NextResponse(JSON.stringify({message : 'Error in Updating Driver'}), {status : 500})
   }
 }

@@ -1,12 +1,16 @@
+{/*
+    1. Block meaning: In this project the component holding the "text" on the left side and "image" on the right side is called as one whole block
+    Goal: This file renders all the main components of our file. This is the main Parent.
+ */}
+
 import React from 'react'
 import Navbar from './navbar'
-import { AFirstBlock } from './animations'
+import AFirstBlock from './firstBlock'
+import GeneralBlock from './generalBlock'
 import Second from './images/second.webp'
 import Third from './images/third.webp'
 import Fourth from './images/fourth.webp'
 import Fifth from './images/fifth.webp'
-import GeneralBlock from './generalBlock'
-import PageWrapper from './pageWrapper'
 
 const homepage = () => {
     const blocksData = [
@@ -67,32 +71,30 @@ const homepage = () => {
     return (
         <>
             <div>
-                <PageWrapper>
-                    <Navbar />
+                <Navbar />
 
-                    {/* First block: "Go anywhere with Uber" */}
-                    <div className='w-full h-[680px] bg-black px-[64px] py-[64px] content-center flex justify-center'>
-                        <AFirstBlock />
-                    </div>
+                {/* First block: "Go anywhere with Uber" */}
+                <div className='w-full h-[680px] bg-black px-[64px] py-[64px] content-center flex justify-center'>
+                    <AFirstBlock />
+                </div>
 
-                    {/* General Blocks */}
-                    {blocksData.map((block, index) => (
-                        <GeneralBlock
-                            key={index}
-                            heading={block.heading}
-                            paras={block.paras}
-                            linkBar={block.linkBar}
-                            picture={block.picture}
-                            TrowRev={block.TrowRev}
-                            Tfstc={block.Tfstc}
-                            Theight={block.Theight}
-                            Tmt={block.Tmt}
-                            TupperHalf={block.TupperHalf}
-                            button={block.button}
-                            TspecialCaseWMB={block.TspecialCaseWMB}
-                        />
-                    ))}
-                </PageWrapper>
+                {/* General Blocks */}
+                {blocksData.map((block, index) => (
+                    <GeneralBlock
+                        key={index}
+                        heading={block.heading}
+                        paras={block.paras}
+                        linkBar={block.linkBar}
+                        picture={block.picture}
+                        TrowRev={block.TrowRev}
+                        Tfstc={block.Tfstc}
+                        Theight={block.Theight}
+                        Tmt={block.Tmt}
+                        TupperHalf={block.TupperHalf}
+                        button={block.button}
+                        TspecialCaseWMB={block.TspecialCaseWMB}
+                    />
+                ))}
             </div>
         </>
     )

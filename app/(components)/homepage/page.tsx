@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import Navbar from './navbar'
 import { AFirstBlock } from './animations'
 import Second from './images/second.webp'

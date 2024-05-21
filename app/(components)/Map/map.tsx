@@ -51,7 +51,7 @@ const Map = ({ location }:LocationType) => {
   return (
     <MapContainer
       center={[coordinates.latitude, coordinates.longitude]}
-      zoom={13}
+      zoom={5}
       scrollWheelZoom={true}
       style={{ height: "100vh", width: "100%" }}
     >

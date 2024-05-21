@@ -43,3 +43,25 @@ button{
   border-radius: 5px;
   margin: 2px;
 }
+
+
+/* MapWithRouting.css */
+.leaflet-routing-container {
+  color: #000;
+  /* Change this to your desired text color */
+}
+
+.leaflet-routing-alt {
+  background-color: rgba(255, 255, 255, 0.8);
+  /* Optional: change the background color for better contrast */
+}
+
+.leaflet-routing-alt h2 {
+  color: #000;
+  /* Change this to your desired header color */
+}
+
+.leaflet-routing-alt span {
+  color: #000;
+  /* Change this to your desired text color */
+}

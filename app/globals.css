@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* 
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -14,7 +14,7 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} 
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -25,12 +25,14 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-input{
-  color: black;
-}
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+} */
+input{
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black;
 }

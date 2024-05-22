@@ -17,7 +17,7 @@ const AFirstBlock = () => {
                 <TextRevealAnim>
                     <div className='w-[464px] h-[383px]'>       {/* Left side */}
                         <div className='h-[191px]'> {/* Upper part aka 1st half */}
-                            <div className='h-[191px] flex flex-col justify-between border-solid border-2 border-red-600'>
+                            <div className='h-[191px] flex flex-col justify-between'>
                                 <h1 className='text-[52px] font-bold leading-tight text-white'>Go anywhere with Uber</h1>
                                 <p className='content-end mb-2 text-[16px] text-white font-normal'>Request a ride, hop in, and go.</p>
                             </div>

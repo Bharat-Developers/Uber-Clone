@@ -6,7 +6,7 @@
 */}
 
 import React, { FC, ReactNode } from 'react'
-import { motion, AnimatePresence, MotionValue } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface MyProps {
   children?: ReactNode;
@@ -57,6 +57,24 @@ export const ImageReveal: FC<MyProps> = ({ children, leftRight = false }) => {
           viewport={{ amount: 0.4, once: true }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1 }}
+        >
+          {children}
+        </motion.div>
+      </AnimatePresence >
+    </>
+  )
+}
+
+export const FooterAnim: FC<MyProps> = ({ children }) => {
+  return (
+    <>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, translateY: -20 }}
+          viewport={{ amount: 0.4, once: true }}
+          whileInView={{ opacity: 1, translateY: 0 }}
+          transition={{ duration: 1 }}
+
         >
           {children}
         </motion.div>

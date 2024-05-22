@@ -7,6 +7,7 @@ import React from 'react'
 import Navbar from './navbar'
 import AFirstBlock from './firstBlock'
 import GeneralBlock from './generalBlock'
+import FooterHome from './footerHome'
 import Second from './images/second.webp'
 import Third from './images/third.webp'
 import Fourth from './images/fourth.webp'
@@ -95,6 +96,8 @@ const homepage = () => {
                         TspecialCaseWMB={block.TspecialCaseWMB}
                     />
                 ))}
+
+                <FooterHome />
             </div>
         </>
     )

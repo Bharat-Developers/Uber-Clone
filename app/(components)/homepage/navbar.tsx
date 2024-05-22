@@ -22,7 +22,7 @@ const navbar = () => {
                             <button className={`w-[62px] font-medium text-[14px] rounded-3xl hover:bg-GG duration-200`}>
                                 Log in
                             </button>
-                            <button className={`w-[73px] h-full rounded-3xl px-[12px] pb-0 text-[14px] bg-white text-black font-medium cursor-pointer hover:bg-gray-300 duration-200`}>
+                            <button className={`w-fit h-full rounded-3xl px-[12px] pb-0 text-[14px] bg-white text-black font-medium cursor-pointer hover:bg-gray-300 duration-200`}>
                                 Sign up
                             </button>
                         </ul>

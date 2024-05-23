@@ -216,7 +216,7 @@ const MapWithRouting: React.FC = () => {
           Show Route
         </button>
       </div>
-      <div id="map" className="-mt-[407px] h-[655px] rounded-lg shadow-lg ml-[250px] w-[900px]"></div>
+      <div id="map" className="-mt-[407px] h-[655px] rounded-lg shadow-lg ml-[450px] w-[900px]"></div>
     </div>
   );
 };

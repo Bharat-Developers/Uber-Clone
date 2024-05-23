@@ -1,22 +1,18 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import './globals.css';
+import { ReactNode } from 'react';
+import ClientSessionProvider from './(components)/Customer/ClientSessionProvider';
+// import Navbar from './(components)/Customer/Navbar';
+import { useNavigate } from 'react-router-dom';
 
-const inter = Inter({ subsets: ["latin"] });
-
-export const metadata: Metadata = {
-  title: "Uber Clone",
-  description: "Uber Clone with next js",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: ReactNode }) {
+    return (
+        <html lang="en">
+            <body>
+                <ClientSessionProvider>
+                    {/* <Navbar /> */}
+                    {children}
+                </ClientSessionProvider>
+            </body>
+        </html>
+    );
 }

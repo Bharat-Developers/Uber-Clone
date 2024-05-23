@@ -1,0 +1,100 @@
+.progressContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    background-color: #f7f7f7;
+    position: relative;
+}
+
+.statusText {
+    margin-bottom: 3rem;
+    font-size: 2.25rem;
+    font-weight: bold;
+    color: #333;
+    animation: fadeIn 2s ease-in-out;
+    height: 80px;
+}
+/* .statusText #buffer {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top-color: blue;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    animation: round 2s linear infinite;
+}
+
+@keyframes round {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+} */
+
+.progress {
+    width: 80%;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progressBar {
+    height: 30px;
+    background-color: #66cbf0;
+    transition: width 1s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
+.progressBarStriped {
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 1rem 1rem;
+}
+
+.progressBarAnimated {
+    animation: progressBarStripes 1s linear infinite;
+}
+
+@keyframes progressBarStripes {
+    0% {
+        background-position: 1rem 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.progressText {
+    position: fixed;
+    top: 61.4%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #474343;
+    font-weight: 500px;
+    z-index: 2;
+    white-space: nowrap;
+    margin: 0;
+}

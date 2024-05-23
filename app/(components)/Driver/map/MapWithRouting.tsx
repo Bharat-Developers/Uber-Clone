@@ -175,8 +175,8 @@ const MapWithRouting: React.FC = () => {
 
   return (
     <div className="p-4">
-      <div className="flex flex-col space-y-4  ml-[550px] w-[300px] p-6 bg-white rounded-lg shadow-md">
-        <div>
+      <div className="flex flex-col space-y-4 mt-[40px] ml-[100px] w-[300px] p-6 bg-white rounded-lg shadow-md">
+        <div><h1 className="font-bold text-3xl p-6">Get a ride</h1>
           <label htmlFor="Start" className="block text-sm font-medium text-gray-1000">Start:</label>
           <input
             type="text"
@@ -211,12 +211,12 @@ const MapWithRouting: React.FC = () => {
         </div>
         <button
           onClick={handleRouting}
-          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
         >
           Show Route
         </button>
       </div>
-      <div id="map" className="mt-3 h-96 rounded-lg shadow-lg ml-[100px] w-[1200px]"></div>
+      <div id="map" className="-mt-[407px] h-[655px] rounded-lg shadow-lg ml-[250px] w-[900px]"></div>
     </div>
   );
 };

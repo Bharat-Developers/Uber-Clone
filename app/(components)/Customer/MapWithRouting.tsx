@@ -13,7 +13,7 @@ import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import MarkerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
-
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 // Override the default icon URLs
 L.Icon.Default.mergeOptions({
@@ -177,23 +177,24 @@ const MapWithRouting: React.FC = () => {
   }, [startCoords, endCoords, selectedMarkerType]);
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col space-y-4  ml-[100px] w-[300px] p-6 bg-white rounded-lg shadow-md">
-        <div>
-          <label htmlFor="Start" className="block text-sm font-medium text-gray-1000">Start:</label>
-          <input
+    <div className="p-4"> 
+      <div className="flex flex-col space-y-4  -ml-[400px] w-[300px] p-6 bg-white rounded-lg shadow-md">
+        <div> <h1 className="font-bold text-3xl p-4">Get a ride</h1>
+          <label htmlFor="Start" className=" font-bold text-2xl block text-sm font-medium text-gray-1000"></label>
+          <input 
             type="text"
-            placeholder="Enter start city"
+            placeholder=  "Pickup location"
             value={startCity}
             onChange={(e) => setStartCity(e.target.value)}
+            
             className="mt-1 block w-60 pl-3 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
         <div>
-          <label htmlFor="Destination" className="block text-sm font-medium text-gray-700">Destination:</label>
+          <label htmlFor="Destination" className="block text-sm font-medium text-gray-700"></label>
           <input
             type="text"
-            placeholder="Enter end city"
+            placeholder="Dropoff location"
             value={endCity}
             onChange={(e) => setEndCity(e.target.value)}
             className="mt-1 block w-60 pl-3 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -214,18 +215,18 @@ const MapWithRouting: React.FC = () => {
         </div>
         <button
           onClick={handleRouting}
-          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
         >
           Show Route
         </button>
         <button
           onClick={() => ('/Customer/progress')}
-          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
         >
          Find my Driver
         </button>
       </div>
-      <div id="map" className="mt-3 h-96 rounded-lg shadow-lg -ml-[430px]"></div>
+      <div id="map" className="-mt-[407px] h-[655px] rounded-lg shadow-lg ml-[10px] w-[900px]"></div>
     </div>
   );
 };

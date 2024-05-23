@@ -178,7 +178,7 @@ const MapWithRouting: React.FC = () => {
 
   return (
     <div className="p-4"> 
-      <div className="flex flex-col space-y-4  -ml-[400px] w-[300px] p-6 bg-white rounded-lg shadow-md">
+      <div className="flex flex-col space-y-4  -ml-[370px] w-[300px] p-6 bg-white rounded-lg shadow-md">
         <div> <h1 className="font-bold text-3xl p-4">Get a ride</h1>
           <label htmlFor="Start" className=" font-bold text-2xl block text-sm font-medium text-gray-1000"></label>
           <input 

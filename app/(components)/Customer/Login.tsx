@@ -41,10 +41,10 @@ const Login: React.FC = () => {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try{
-            const responce = fetch('api/customer',{
+            const responce = await fetch('api/customer',{
                 method : 'POST',
                 headers : {
                     'Content-Type' : 'application/json'

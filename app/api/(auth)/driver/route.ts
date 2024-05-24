@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connect from "@/lib/db";
 import Driver from "@/lib/models/Driver";
+import mongoose from "mongoose";
 
 export const GET = async (request: Request) => {
   const { searchParams } = new URL(request.url)
@@ -25,6 +26,8 @@ export const GET = async (request: Request) => {
     return new Response(JSON.stringify(users), { status: 201 });
   } catch (error) {
     return new NextResponse("Error in fetching data", { status: 500 });
+  }finally{
+    mongoose.connection.close()
   }
 };
 

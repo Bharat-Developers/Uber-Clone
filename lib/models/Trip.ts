@@ -13,7 +13,7 @@ const TripSchema = new Schema({
     status: {
         type: Number,
         required: true,
-        default: 0,       
+        default: 0,
     },
     source: {
         type: Object, // of type @types/Point

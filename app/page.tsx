@@ -2,6 +2,7 @@ import Image from "next/image";
 import LoginCustomer from "./(components)/loginCustomer";
 import LoginDriver from "./(components)/loginDriver";
 import Homepage from './(components)/homepage/page'
+import Test from "./(components)/Test";
 
 export default function Home() {
   return (
@@ -9,7 +10,8 @@ export default function Home() {
     <main className="w-full h-full">
       {/* <LoginCustomer/> */}
       {/* <LoginDriver/> */}
-      <Homepage />
+      {/* <Homepage /> */}
+      <Test/>
     </main>
   );
 }

@@ -23,9 +23,11 @@ export const getCell_Ids:React.FC<Location> = ({latitude,longitude}) => {
     }
 }
 
-export const getS2Id: React.FC<Location>  = ({latitude,longitude}) => {
+export const getS2Id: React.FC<Location> = ({latitude,longitude}) => {
   try{
-    return S2.keyToId(S2.latLngToKey(latitude,longitude,14)).toString();
+    const send = S2.keyToId(S2.latLngToKey(latitude,longitude,14)).toString()
+    console.log(send);
+    return send;
   }
   catch(error){
     console.log(error);

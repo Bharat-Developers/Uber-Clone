@@ -7,7 +7,7 @@ import { S2Celltype } from '@/types/S2Cell';
 
 const getTrip = () => {
     const [data, setData] = useState<S2Celltype[]>([]);
-    const [location, setLocation] = useState<Location>({ latitude: 0, longitude: 0 });
+    const [ocation, setLocation] = useState<Location>({ latitude: 0, longitude: 0 });
     const getLocation = () =>{
         if ('geolocation' in navigator) {
             // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API

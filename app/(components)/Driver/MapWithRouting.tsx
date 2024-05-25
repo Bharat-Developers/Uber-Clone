@@ -13,6 +13,8 @@ import MarkerIcon from "leaflet/dist/images/marker-icon.png";
 import MarkerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import MarkerShadow from "leaflet/dist/images/marker-shadow.png";
 import styles from './GetARideForm.module.css';
+import 'leaflet.animatedmarker/src/AnimatedMarker'
+// import { getS2Id } from "../../actions/getCell_Ids"
 
 // Override the default icon URLs
 L.Icon.Default.mergeOptions({
@@ -61,8 +63,6 @@ interface Suggestion {
 }
 
 const MapWithRouting: React.FC = () => {
-  const [startCity, setStartCity] = useState<string>("");
-  const [endCity, setEndCity] = useState<string>("");
   const [startCoords, setStartCoords] = useState<[number, number] | null>(null);
   const [endCoords, setEndCoords] = useState<[number, number] | null>(null);
   const [selectedMarkerType, setSelectedMarkerType] = useState<string>("auto");
@@ -117,6 +117,7 @@ const MapWithRouting: React.FC = () => {
 
       setStartCoords([startLat, startLon]);
       console.log(startLat, startLon)
+      // getS2Id(startLat, startLon)
       setEndCoords([endLat, endLon]);
     } catch (error) {
       console.error("Error fetching coordinates:", error);
@@ -125,14 +126,15 @@ const MapWithRouting: React.FC = () => {
 
   useEffect(() => {
     if (startCoords && endCoords) {
+      // show the map with setView(Center, Zoom)
       if (!mapRef.current) {
         mapRef.current = L.map("map").setView(startCoords, 10);
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        L.tileLayer("http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png", {
           attribution: "OSM",
         }).addTo(mapRef.current);
       } else {
         mapRef.current.setView(startCoords, 10);
-      }
+      } 
 
       if (mapRef.current) {
         const map = mapRef.current;
@@ -162,16 +164,18 @@ const MapWithRouting: React.FC = () => {
       const startLatLng: LatLng = L.latLng(startCoords[0], startCoords[1]);
       const endLatLng: LatLng = L.latLng(endCoords[0], endCoords[1]);
 
-      startMarkerRef.current = L.marker(startLatLng).addTo(mapRef.current);
-      startMarkerRef.current.setIcon(locIcon);
-      endMarkerRef.current = L.marker(endLatLng).addTo(mapRef.current);
-      endMarkerRef.current.setIcon(locIcon);
+      // Adding Markers to Starting and ending Locations
+
+      startMarkerRef.current = L.marker(startLatLng).setIcon(locIcon).addTo(mapRef.current).bindPopup(`<h1>${location1}</h1>`).addTo(mapRef.current);
+      endMarkerRef.current = L.marker(endLatLng).setIcon(locIcon).addTo(mapRef.current).bindPopup(`<h1>${location2}</h1>`).addTo(mapRef.current);
+
+      // const AnimateMarker = L.anim
 
       routingControlRef.current = L.Routing.control({
         waypoints: [startLatLng, endLatLng],
       }).addTo(mapRef.current);
 
-      routingControlRef.current.on("routesfound", (e) => {
+      routingControlRef.current.on("routesfound", (e: any) => {
         const routes = e.routes;
         const totalDistance = routes[0].summary.totalDistance;
         const totalTime = routes[0].summary.totalTime;
@@ -186,7 +190,7 @@ const MapWithRouting: React.FC = () => {
 
         movingMarkerRef.current = L.marker(coordinates[0], {
           icon: movingIcons[selectedMarkerType],
-        }).addTo(mapRef.current);
+        }).addTo(mapRef.current!);
 
         coordinates.forEach((coord: L.LatLng, index: number) => {
           const timeout = setTimeout(() => {
@@ -197,7 +201,7 @@ const MapWithRouting: React.FC = () => {
             if (index === lastIndex) {
               alert("Journey Complete!");
             }
-          }, 100 * index);
+          }, 1 * index);
           movingMarkerTimeouts.current.push(timeout);
         });
       });
@@ -220,8 +224,8 @@ const MapWithRouting: React.FC = () => {
           {suggestions1.length > 0 && (
             <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
               {suggestions1.map((suggestion, index) => (
-                <li 
-                  key={index} 
+                <li
+                  key={index}
                   className="p-2 cursor-pointer hover:bg-gray-200"
                   onClick={() => setLocation1(suggestion.properties.formatted)}
                 >
@@ -243,8 +247,8 @@ const MapWithRouting: React.FC = () => {
           {suggestions2.length > 0 && (
             <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
               {suggestions2.map((suggestion, index) => (
-                <li 
-                  key={index} 
+                <li
+                  key={index}
                   className="p-2 cursor-pointer hover:bg-gray-200"
                   onClick={() => setLocation2(suggestion.properties.formatted)}
                 >

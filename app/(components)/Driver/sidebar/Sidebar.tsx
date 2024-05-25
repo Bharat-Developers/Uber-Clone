@@ -9,9 +9,9 @@ const Navbar = () => {
     const navLinks = [
         { path: '/Driver/dashboard', label: 'Home' },
         { path: '/Driver/active', label: 'Go Active' },
-        { path: '/Driver/statistics', label: 'Statistics' },
         { path: '/Driver/earnings', label: 'Earnings' },
-        { path: '/Driver/signout', label: 'Sign Out' },
+        { path: '/Driver/statistics', label: 'Statistics' },
+        { path: '/', label: 'Sign Out' },
     ];
 
     return (

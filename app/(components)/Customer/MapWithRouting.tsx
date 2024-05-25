@@ -219,14 +219,14 @@ const MapWithRouting: React.FC = () => {
         >
           Show Route
         </button>
-        <button
+        {/* <button
           onClick={() => ('/Customer/progress')}
           className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
         >
          Find my Driver
-        </button>
+        </button> */}
       </div>
-      <div id="map" className="-mt-[407px] h-[655px] rounded-lg shadow-lg ml-[10px] w-[900px]"></div>
+      <div id="map" className="-mt-[340px] h-[655px] rounded-lg shadow-lg ml-[10px] w-[900px]"></div>
     </div>
   );
 };

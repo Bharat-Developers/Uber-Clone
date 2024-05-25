@@ -11,8 +11,8 @@ export default function Home() {
     <main className="w-full h-full">
       {/* <LoginCustomer/> */}
       {/* <LoginDriver/> */}
-      {/* <Homepage /> */}
-      <Ride/>
+      <Homepage />
+      {/* <Ride/> */}
       {/* <Test/> */}
     </main>
   );

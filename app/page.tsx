@@ -2,6 +2,7 @@ import Image from "next/image";
 import LoginCustomer from "./(components)/loginCustomer";
 import LoginDriver from "./(components)/loginDriver";
 import Homepage from './(components)/homepage/page'
+import Ride from "./(components)/Customer/ride/page";
 import Test from "./(components)/Test";
 
 export default function Home() {
@@ -11,7 +12,8 @@ export default function Home() {
       {/* <LoginCustomer/> */}
       {/* <LoginDriver/> */}
       {/* <Homepage /> */}
-      <Test/>
+      <Ride/>
+      {/* <Test/> */}
     </main>
   );
 }

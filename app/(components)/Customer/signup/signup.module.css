@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 96vh;
+    height: 100vh;
     background-color: #f7f7f7;
     padding: 2rem;
     animation: fadeIn 1s ease;
@@ -17,8 +17,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 400px;
-    width: 100%;
+    max-width: 450px;
+    width: 150%;
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     animation: slideUp 1s ease;
     box-shadow: 7px 0px 15px #5e605e, -7px 0px 15px #fbfbfb;
@@ -30,10 +30,11 @@
 }
 
 .title {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 18px;
+    margin-bottom: 0.2rem;
     font-weight: normal;
     animation: slideInFromLeft 1s ease;
+    margin-left: -13.5rem;
 }
 
 .input {
@@ -45,7 +46,26 @@
     height: 40px;
     animation: slideInFromRight 1s ease;
 }
-
+.datePicker {
+    width: 12963%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color:white;
+    color: #060606;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: popIn 1s ease;
+    margin-inline-start: -12rem;
+  }
+  .terms{
+    margin-bottom: 1rem;
+    margin-left: -110px;
+    font-size: 18px;
+  }
+  
 .continueButton {
     width: 100%;
     padding: 0.5rem;
@@ -106,7 +126,7 @@
 .appleButton{
     width: 100%;
     padding: 0.5rem;
-    margin-bottom: 1rem;
+    /* margin-bottom: 1rem; */
     background-color: #0f0f0f;
     color: #fdfdfd;
     border: 1px solid #0a0a0a;
@@ -120,9 +140,8 @@
     animation: popIn 1s ease;
 }
 .googleButton:hover,
-.appleButton:hover,
-.findAccountButton:hover,
-.qrButton:hover {
+.appleButton:hover
+ {
     transform: scale(1.05);
 }
 

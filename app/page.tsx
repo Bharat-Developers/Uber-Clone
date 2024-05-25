@@ -11,7 +11,7 @@ export default function Home() {
       {/* <LoginCustomer/> */}
       {/* <LoginDriver/> */}
       {/* <Homepage /> */}
-      <Test/>
+      <Homepage/>
     </main>
   );
 }

@@ -1,0 +1,43 @@
+
+  .container {
+    text-align: center;
+    padding: 50px;
+    margin-top: 4rem;
+    max-width: 1000px; /* Optional: to limit the container width */
+    background-color: white; /* Ensure text inside container is white */
+    margin-left: -50px;
+  }
+  
+  .container h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+  
+  .container p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+  }
+  
+  .signupButton {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 20px;
+  }
+  
+  .signupButton:hover {
+    background-color: #333;
+  }
+  
+  .container img {
+    max-width: 86%;
+    height: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 2.5rem;
+  }
+  

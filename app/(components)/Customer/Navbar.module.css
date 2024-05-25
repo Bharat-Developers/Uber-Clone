@@ -32,8 +32,8 @@
 }
 
 .navLinks li.active a {
-    font-weight: bold;
-    text-decoration: underline;
+    /* font-weight: bold; */
+    text-decoration: none;
 }
 .signOutButton{
     color: #fff;

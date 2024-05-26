@@ -1,12 +1,19 @@
 import L, { LatLng, LatLngExpression, Marker, Circle, latLng } from "leaflet";
 import "leaflet-routing-machine";
+import { getS2Id } from "./getCell_Ids";
+// import { Location } from "@/types/Location";
+import { UpdateDriverLocation } from "./DriverUpdate";
+import mongoose from "mongoose";
 
 export let mapRef: L.Map | null = null;
 export const markersRef: Marker[] = [];
-export const Tracker: LatLngExpression[] = [];
+export let Tracker: LatLngExpression[] = [];
 export const CircleRef: Circle[] = [];
 export let routingControlRef: L.Routing.Control | null = null;
+export let PrevS2Id: String = "";
 export let currentPos: LatLngExpression | undefined = undefined;
+
+// export let
 const Home = latLng(19.86925, 79.337909);
 
 export const initializeMap = (
@@ -45,11 +52,11 @@ export const requestLocationAccess = (
   }
 };
 
-export const geoSuccess = (
+export const geoSuccess = async (
   pos: GeolocationPosition,
   location: { latitude: number; longitude: number },
   setLocation: (location: { latitude: number; longitude: number }) => void,
-  setShouldEffectRun: (shouldRun: boolean) => void,
+  // setShouldEffectRun: (shouldRun: boolean) => void,
   isWithinRadius: (
     lat1: number,
     lon1: number,
@@ -57,13 +64,17 @@ export const geoSuccess = (
     lon2: number,
     radius?: number
   ) => boolean,
-  Ballarpur: LatLng
+  GO: boolean
+  // Ballarpur: LatLng
 ) => {
   const { latitude, longitude, accuracy } = pos.coords;
   currentPos = [latitude, longitude];
 
   if (routingControlRef === null) {
     RouteHandle(latLng(latitude, longitude), latLng(latitude, longitude));
+    const id = await getS2Id({ latitude: latitude, longitude: longitude });
+    PrevS2Id = id?.toString() || "";
+    // console.log(PrevS2Id)
   }
 
   if (location.latitude !== latitude || location.longitude !== longitude) {
@@ -81,17 +92,30 @@ export const geoSuccess = (
       lastLocation[0] !== currentPos[0] ||
       lastLocation[1] !== currentPos[1]
     ) {
-      if (
-        isWithinRadius(
-          lastLocation[0],
-          lastLocation[1],
-          currentPos[0],
-          currentPos[1]
-        )
-      ) {
-        setShouldEffectRun(false);
-        alert("You have reached");
+      //*TODO -  to be seen
+      // if (
+      //   isWithinRadius(
+      //     lastLocation[0],
+      //     lastLocation[1],
+      //     currentPos[0],
+      //     currentPos[1]
+      //   )
+      // ) {
+      // setShouldEffectRun(false);
+      // alert("You have reached");
+      // }
+      const id = await getS2Id({ latitude: latitude, longitude: longitude });
+      await UpdateDriverLocation(
+        id?.toString() || "",
+        PrevS2Id.toString(),
+        new mongoose.Types.ObjectId('664894587f88adf05ee6e017'),
+        GO
+      );
+      if (id !== PrevS2Id) {
+        PrevS2Id = id?.toString() || "";
+        console.log("prevs2id", PrevS2Id);
       }
+      // console.log(id === PrevS2Id)
       Tracker.push(currentPos);
     }
     L.polyline(Tracker, { color: "blue" }).addTo(mapRef!);
@@ -106,6 +130,11 @@ export const geoSuccess = (
 export const geoError = (error: GeolocationPositionError) => {
   // console.error(error);
 };
+
+export const OffTracker = () => {
+  Tracker = [];
+  Tracker.length = 0;
+} 
 
 export const RouteHandle = (currentLoc: LatLng, destination: LatLng) => {
   if (currentLoc !== destination) {
@@ -124,7 +153,7 @@ export const isWithinRadius = (
   lon1: number,
   lat2: number,
   lon2: number,
-  radius: number = 30
+  radius: number = 6
 ): boolean => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180;
@@ -138,5 +167,5 @@ export const isWithinRadius = (
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const distance = R * c; // in metres
-  return distance <= radius;
+  return distance < radius;
 };

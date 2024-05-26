@@ -1,11 +1,13 @@
 'use client'
-
-import React, { useRef, useEffect, useState, ChangeEvent } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import "leaflet/dist/leaflet.css";
 import { Location } from '@/types/Location';
-import { initializeMap, requestLocationAccess, geoSuccess, geoError, RouteHandle, isWithinRadius, currentPos } from '../../actions/MapUtils';
+import { initializeMap, requestLocationAccess, geoSuccess, geoError, RouteHandle, isWithinRadius, currentPos, Tracker, OffTracker } from '../../actions/MapUtils';
 import axios from 'axios';
-import L, { LatLng } from 'leaflet';
+import L from 'leaflet';
+import { getS2Id } from '@/app/actions/getCell_Ids';
+import { UpdateDriverLocation } from "../../actions/DriverUpdate";
+import mongoose from 'mongoose';
 
 interface Suggestion {
     properties: {
@@ -18,25 +20,46 @@ const TestMap = () => {
     const [mapCenter, setMapCenter] = useState<Location>({ latitude: 0, longitude: 0 });
     const [destination, setDestination] = useState<string>('');
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-    const Ballarpur: LatLng = L.latLng(19.869229, 79.340409);
-    const [shouldEffectRun, setShouldEffectRun] = useState(true);
+    const [GO, setGO] = useState<boolean | null>(false);
+    const [shouldEffectRun, setShouldEffectRun] = useState<boolean | null>(false);
 
     useEffect(() => {
-        if (!shouldEffectRun) {
-            return;
+        // Check if GO is stored in localStorage
+        const storedGO = localStorage.getItem('GO');
+        if (storedGO !== null) {
+            setGO(storedGO === 'true');
+            setShouldEffectRun(storedGO === 'true');
         }
 
-        initializeMap(setMapCenter);
+        // Run handleGOchange function on component mount
+        handleGOchange();
 
-        const cleanup = requestLocationAccess(
-            (pos) => geoSuccess(pos, location, setLocation, setShouldEffectRun, isWithinRadius, Ballarpur),
-            geoError
-        )
+        // Add event listener for beforeunload
+        window.addEventListener('beforeunload', handleBeforeUnload);
 
+        // Cleanup function to remove event listener
         return () => {
-            if (cleanup instanceof Function ) cleanup();
+            window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, [location, shouldEffectRun]);
+    }, []);
+
+    useEffect(() => {
+        if (GO) {
+            initializeMap(setMapCenter);
+
+            const cleanup = requestLocationAccess(
+                (pos) => geoSuccess(pos, location, setLocation, isWithinRadius, GO!),
+                geoError
+            );
+
+            return () => {
+                if (cleanup instanceof Function) cleanup();
+            };
+        }
+        else{
+            // OffTracker()
+        }
+    }, [location, shouldEffectRun, GO]);
 
     useEffect(() => {
         if (destination.length >= 2) {
@@ -57,6 +80,22 @@ const TestMap = () => {
         setDestination(e.target.value);
     };
 
+    const handleGOchange = async () => {
+        const id = await getS2Id({ latitude: location.latitude, longitude: location.longitude })
+        
+        setGO(prev => !prev);
+        console.log(GO)
+        if (GO === false) {
+            await UpdateDriverLocation(id?.toString() || "", id?.toString() || "", new mongoose.Types.ObjectId('664894587f88adf05ee6e017'), true);
+        }
+        if (GO === true) {
+            // Tracker.length = 0
+            await UpdateDriverLocation(id?.toString() || "", id?.toString() || "", new mongoose.Types.ObjectId('664894587f88adf05ee6e017'), false);
+            window.location.reload()
+        }
+        setShouldEffectRun(!GO);
+    };
+    
     const handleSuggestionClick = async (formatted: string) => {
         setDestination(formatted);
         try {
@@ -72,11 +111,23 @@ const TestMap = () => {
         }
     };
 
+    const handleBeforeUnload = async (event: BeforeUnloadEvent) => {
+        if(GO){
+            const id = await getS2Id({ latitude: location.latitude, longitude: location.longitude })
+            await UpdateDriverLocation(id?.toString() || "", id?.toString() || "", new mongoose.Types.ObjectId('664894587f88adf05ee6e017'), false);
+        }
+        // alert('refresh')
+    }
+
     return (
-        <div>
-            <div id="map" style={{ height: "80vh", width: "100vw" }}></div>
+        <div className='w-full'>
+            <div id="map" style={{ height: "80vh", width: "100%" }}></div>
+            {!GO && <div className='absolute top-0 text-red-900 h-[80vh] w-[100%] text-[20vh] z-10'>GO</div>}
             <div>
                 Current Map Center: Latitude: {Number(mapCenter.latitude)}, Longitude: {Number(mapCenter.longitude)}
+            </div>
+            <div>
+                Your Current Location: Latitude: {Number(location.latitude)}, Longitude: {Number(location.longitude)}
             </div>
             <div className="mt-4 text-sm">
                 <label>Destination:</label><br />
@@ -100,6 +151,9 @@ const TestMap = () => {
                     </ul>
                 )}
             </div>
+            <button onClick={() => handleGOchange()} className={`${GO ? 'text-green-700' : 'text-red-700'} p-2 m-2 text-xl`}>
+                GO
+            </button>
         </div>
     );
 };

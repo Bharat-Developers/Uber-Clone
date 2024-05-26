@@ -1,11 +1,19 @@
 import mongoose from "mongoose";
 
+const nottheone = '1152921508901814272'
+
 export const UpdateDriverLocation = async (
   current_cell_id: string,
   prev_cell_id: string,
   driver_id: mongoose.Types.ObjectId,
   GO: boolean
 ) => {
+  // Check if either current_cell_id or prev_cell_id is equal to nottheone
+  if (current_cell_id.toString() === nottheone.toString() || prev_cell_id.toString() === nottheone.toString()) {
+    console.log("Current or previous cell ID is not the one, function not executed.");
+    return; // Exit the function without executing further code
+  }
+
   if (current_cell_id !== prev_cell_id) {
     try {
       const actions = [
@@ -43,12 +51,8 @@ export const UpdateDriverLocation = async (
       console.error("Error in UpdateDriverLocation function:", error);
       throw error;
     }
-  }
-  
-  // agar go abhi abhi on hua hai to push
-  // agar go abhi abhi off hua hai to pull
-  else {
-    try{
+  } else {
+    try {
       const action = GO ? "push" : "pull";
       const response = await fetch("api/AvaliableDrivers", {
         method: "PUT",
@@ -61,6 +65,7 @@ export const UpdateDriverLocation = async (
           action: action,
         }),
       });
+
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(
@@ -68,7 +73,7 @@ export const UpdateDriverLocation = async (
         );
       }
       console.log("Driver location updated successfully");
-    }catch(error){
+    } catch (error) {
       console.error("Error in UpdateDriverLocation function:", error);
       throw error;
     }

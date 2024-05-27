@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import AvaliableDriver from "@/lib/models/AvaliableDrivers";
+// import connect from "@/lib/db";
 import connect from "@/lib/db";
 import mongoose from "mongoose";
 

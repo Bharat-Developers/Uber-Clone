@@ -31,7 +31,7 @@ function WhyDrive() {
                     <Image src='/support.jpg' height={25} width={25} alt='support' />
                     <br />
                     <h1 className={styles.headings}>Get support at every turn</h1>
-                    If there's anything that you need, you can reach us anytime.
+                    If there&#39;s anything that you need, you can reach us anytime.
                 </div>
             </div>
         </div>

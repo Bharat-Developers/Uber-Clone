@@ -34,7 +34,7 @@ export default function Rc() {
         <div className="p-4">
           <h1 className="text-2xl font-bold mb-4">Let’s find your Registration Certificate (RC)</h1>
           <p className="text-gray-700 mb-4">
-            Enter your license plate number and we'll get the required information from the Vahan and Sarathi portal of MoRTH, or you can upload your Registration Certificate (RC) instead.
+            Enter your license plate number and we&#39;ll get the required information from the Vahan and Sarathi portal of MoRTH, or you can upload your Registration Certificate (RC) instead.
           </p>
           <label htmlFor="licensePlate" className="block text-gray-700 mb-2">License Plate Number</label>
           <input
@@ -45,7 +45,7 @@ export default function Rc() {
             className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
           />
           {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
-       <Link href='/Driver/dashboard'>   <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button></Link>
+          <Link href='/Driver/dashboard'>   <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button></Link>
         </div>
       </div>
     </div>

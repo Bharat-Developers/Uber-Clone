@@ -14,7 +14,6 @@ export default function Vehicle() {
             You can change your language on this screen or anytime in Help.
           </p>
           <h1 className="text-2xl font-bold mb-4">Select Your Language</h1>
-          
         </div>
       </div>
     </div>

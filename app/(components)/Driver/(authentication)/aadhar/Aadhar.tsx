@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 export default function Aadhar() {
   const [aadharNumber, setAadharNumber] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
- 
+
   const handleAadharChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setAadharNumber(e.target.value);
   };
@@ -33,9 +33,9 @@ export default function Aadhar() {
           <button className="bg-white text-black py-1 px-3 rounded">Help</button>
         </div>
         <div className="p-4">
-          <h1 className="text-2xl font-bold mb-4">Let's find your Aadhaar card</h1>
+          <h1 className="text-2xl font-bold mb-4">Let&#39;s find your Aadhaar card</h1>
           <p className="text-gray-700 mb-4">
-            Enter your Aadhaar and we'll get your information from UIDAI. By sharing your Aadhaar details, you hereby confirm that you have shared such details voluntarily.
+            Enter your Aadhaar and we&#39;ll get your information from UIDAI. By sharing your Aadhaar details, you hereby confirm that you have shared such details voluntarily.
           </p>
           <div className="flex justify-center mb-4">
             <Image src="/aadhar.png" height={300} width={300} alt="Aadhaar" />
@@ -50,7 +50,7 @@ export default function Aadhar() {
             className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
           />
           {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
-        <Link href="/documents" > <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button></Link>
+          <Link href="/documents" > <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button></Link>
         </div>
       </div>
     </div>

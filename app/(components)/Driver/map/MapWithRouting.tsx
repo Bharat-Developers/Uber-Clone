@@ -100,7 +100,7 @@ const MapWithRouting: React.FC = () => {
 
       if (mapRef.current) {
         const map = mapRef.current as L.Map;
-        
+
         if (routingControlRef.current) {
           routingControlRef.current.getPlan().setWaypoints([]);
           map.removeControl(routingControlRef.current);
@@ -211,7 +211,7 @@ const MapWithRouting: React.FC = () => {
         </div>
         <button
           onClick={handleRouting}
-          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+          className="mt-2 block w-60 items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
         >
           Show Route
         </button>

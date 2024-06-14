@@ -5,23 +5,24 @@ import Link from 'next/link';
 import Navigation from '../Navigation/Navigation'
 export default function Drive() {
   return (<>
-  <Navigation/>
+    <Navigation />
     <div className={styles.container} >
-        <div className={styles.textcontainer}>
+      <div className={styles.textcontainer}>
         <p className={styles.bold}>Drive when you <br></br> want, make what <br></br> you need</p>
-        
+
         <p className={styles.supportingtext}>
-        Earn on your own schedule.<br></br><br></br> </p>
+          Earn on your own schedule.<br></br><br></br> </p>
         <div className={styles.buttonaccount}>
-      <Link href='/Driver/signup'>  <button type='submit' className={styles.btn}>Get Started</button>     </Link>
-        <p className={styles.underline}>Already have an account? <Link href='/Driver/email'>Sign in</Link></p>
+          {/* <Link href='/Driver/signup'>  <button type='submit' className={styles.btn}>Get Started</button></Link> */}
+          <Link href='/Driver/(authentication)/'><button type='submit' className={styles.btn}>Get Started</button></Link>
+          <p className={styles.underline}>Already have an account? <Link href='/Driver/email'>Sign in</Link></p>
         </div>
-        </div>
-        <div className={styles.imgcontainer}>
+      </div>
+      <div className={styles.imgcontainer}>
         <Image src="/img1.jpg" height={500} width={500} alt="Image loading" />
-        </div>
-      
+      </div>
+
     </div>
-    </>
+  </>
   );
 }

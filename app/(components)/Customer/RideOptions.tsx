@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './RideOptions.module.css';
+import Image from 'next/image';
 
 const RideOptions: React.FC = () => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -16,7 +17,7 @@ const RideOptions: React.FC = () => {
     <div className={styles.rideOptions}>
       <h1>Choose a ride</h1>
       <div className={styles.option}>
-        <img src="/ubercar.png" alt="Car-mini" className={styles.carImage} />
+        <Image src="/ubercar.png" alt="Car-mini" className={styles.carImage} />
         <div className={styles.details}>
           <div className={styles.header}>
             <h2>Uber Go <span className={styles.seatIcon}>&#x1F464; 4</span></h2>
@@ -31,7 +32,7 @@ const RideOptions: React.FC = () => {
       </div>
 
       <div className={styles.option}>
-        <img src="/premium.png" alt="Uber Go" className={styles.carImage} />
+        <Image src="/premium.png" alt="Uber Go" className={styles.carImage} />
         <div className={styles.details}>
           <div className={styles.header}>
             <h2>Premier <span className={styles.seatIcon}>&#x1F464; 4</span></h2>
@@ -46,7 +47,7 @@ const RideOptions: React.FC = () => {
       </div>
 
       <div className={styles.option}>
-        <img src="/package.png" alt="Uber Go" className={styles.carImage} />
+        <Image src="/package.png" alt="Uber Go" className={styles.carImage} />
         <div className={styles.details}>
           <div className={styles.header}>
             <h2>Package <span className={styles.seatIcon}>&#x1F464; 4</span></h2>
@@ -70,19 +71,19 @@ const RideOptions: React.FC = () => {
             <button className={styles.closeButton} onClick={handleCloseModal}>×</button>
             <h2>Add payment method</h2>
             <div className={styles.paymentOption}>
-              <img src="/paypal.png" alt="PayPal" className={styles.paymentIcon} />
+              <Image src="/paypal.png" alt="PayPal" className={styles.paymentIcon} />
               <span>PayPal</span>
             </div>
             <div className={styles.paymentOption}>
-              <img src="/uber.png" alt="Gift Card" className={styles.paymentIcon} />
+              <Image src="/uber.png" alt="Gift Card" className={styles.paymentIcon} />
               <span>Gift Card</span>
             </div>
             <div className={styles.paymentOption}>
-              <img src="/cash-logo.png" alt="Cash" className={styles.paymentIcon} />
+              <Image src="/cash-logo.png" alt="Cash" className={styles.paymentIcon} />
               <span>Cash</span>
             </div>
             <div className={styles.paymentOption}>
-              <img src="/paytm.png" alt="Paytm" className={styles.paymentIcon} />
+              <Image src="/paytm.png" alt="Paytm" className={styles.paymentIcon} />
               <span>Paytm</span>
             </div>
           </div>

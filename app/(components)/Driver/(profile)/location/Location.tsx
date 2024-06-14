@@ -14,11 +14,11 @@ export default function Location() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
 
   useEffect(() => {
-    if (location.length >= 2) { 
+    if (location.length >= 2) {
       const requestOptions = {
         method: 'GET',
       };
-  
+
       fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${location}&apiKey=7060a1b8dbc64f0092997c4b56f0d874`, requestOptions)
         .then(response => response.json())
         .then(result => setSuggestions(result.features))
@@ -51,17 +51,17 @@ export default function Location() {
           </p>
           <div className="mt-4 text-sm">
             <label>Where would you like to earn?</label><br />
-            <input 
-              type="text" 
-              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded" 
+            <input
+              type="text"
+              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded"
               value={location}
               onChange={handleInputChange}
             />
             {suggestions.length > 0 && (
               <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
                 {suggestions.map((suggestion, index) => (
-                  <li 
-                    key={index} 
+                  <li
+                    key={index}
                     className="p-2 cursor-pointer hover:bg-gray-200"
                     onClick={() => handleSuggestionClick(suggestion.properties.formatted)}
                   >
@@ -80,7 +80,7 @@ export default function Location() {
           <br></br>
           <br></br>
           <Link href='/Driver/language'>
-            <button className="bg-black text-white py-2 px-4 rounded absolute bottom-4 right-4  rounded-sm">
+            <button className="bg-black text-white py-2 px-4 absolute bottom-4 right-4  rounded-sm">
               Next
             </button>
           </Link>

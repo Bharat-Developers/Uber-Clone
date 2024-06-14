@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import styles from './Navbar.module.css';
-import FindDriverButton from './FindDriverButton';  // Import the FindDriverButton component
+import FindDriverButton from '../find-driver/FindDriverButton';  // Import the FindDriverButton component
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();

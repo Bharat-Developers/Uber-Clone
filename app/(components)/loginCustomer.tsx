@@ -1,12 +1,12 @@
 import React from 'react'
-import Login from './Customer/Login'
-import GetData from './Customer/GetData'
+import Login from './Customer/test/Login'
+import GetData from './Customer/test/GetData'
 
 const LoginCustomer = () => {
   return (
     <div>
-        <Login/>
-        <GetData/>
+      <Login />
+      <GetData />
     </div>
   )
 }

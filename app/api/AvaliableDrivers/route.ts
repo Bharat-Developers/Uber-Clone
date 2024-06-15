@@ -36,6 +36,8 @@ export const GET = async (request: NextRequest) => {
 
 const isValidObjectId = (id: string) => mongoose.Types.ObjectId.isValid(id);
 
+
+
 export const PUT = async (request: NextRequest) => {
   try {
     const { cell_id, driver_id, action } = await request.json();

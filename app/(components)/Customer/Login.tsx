@@ -106,16 +106,6 @@ const Login: React.FC = () => {
                     required
                 />
             </div>
-            {/* <div>
-                <label htmlFor="location">Location (Driver):</label>
-                <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                />
-            </div> */}
             <div>
                 <label htmlFor="dob">DOB:</label>
                 <input

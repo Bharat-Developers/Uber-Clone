@@ -204,7 +204,7 @@ const TestMap = () => {
                     />
                     {suggestions1.length > 0 && (
                         <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
-                            {suggestions2.map((suggestion, index) => (
+                            {suggestions1.map((suggestion, index) => (
                                 <li
                                     key={index}
                                     className="p-2 cursor-pointer hover:bg-gray-200"

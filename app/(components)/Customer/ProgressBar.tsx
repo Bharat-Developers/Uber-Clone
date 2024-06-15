@@ -39,7 +39,7 @@ const ProgressBar = () => {
                     aria-valuemin={0}
                     aria-valuemax={100}
                     style={{ width: `${currentProgress}%` }}
-                >
+                 >
                     <span className={styles.progressText}>{currentProgress}% Completed</span>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import Navbar from '../Navbar';
+import Navbar from '../navbar/Navbar';
 import RideOptions from '../RideOptions';
-import styles from '../FindDriverButton.module.css';
+import styles from './FindDriverButton.module.css';
 
 const FindDriverPage = () => {
     return (

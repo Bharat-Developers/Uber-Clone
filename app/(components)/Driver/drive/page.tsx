@@ -7,12 +7,12 @@ import Footer from "./Footer";
 
 export default function Home() {
   return (
-   <>
-<Drive/>
-<WhyDrive/>
-<WhatNeed/>
-<FAQ/>
-<Footer/>
-</>
+    <>
+      <Drive />
+      <WhyDrive />
+      <WhatNeed />
+      <FAQ />
+      <Footer />
+    </>
   );
 }

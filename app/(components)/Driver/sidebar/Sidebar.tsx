@@ -1,10 +1,14 @@
+/**
+ change name from sidebar -> navbar
+ */
+
 "use client";
 import Link from 'next/link';
-import { usePathname } from 'next/navigation'; 
+import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
 
 const Navbar = () => {
-    const pathname = usePathname(); 
+    const pathname = usePathname();
 
     const navLinks = [
         { path: '/Driver/dashboard', label: 'Home' },

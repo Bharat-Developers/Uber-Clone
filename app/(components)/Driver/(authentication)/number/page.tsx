@@ -1,10 +1,10 @@
 import React from 'react'
-import Phone from './Phone'
+import Phone from './number'
 
 export default function page() {
   return (
     <div>
-      <Phone/>
+      <Phone />
     </div>
   )
 }

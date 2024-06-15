@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import DatePicker from 'react-datepicker';
 import styles from './signup.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import Image from 'next/image';
 
 const DriverSignup: React.FC = () => {
     const searchParams = useSearchParams();
@@ -19,7 +20,7 @@ const DriverSignup: React.FC = () => {
         // Handle Google signup button click
     };
 
-    const handleAppleSignup = () => { 
+    const handleAppleSignup = () => {
         // Handle Apple signup button click
     };
 
@@ -30,7 +31,7 @@ const DriverSignup: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.formBackground}>
-                <h4 className={styles.title}>What's your email?</h4>
+                <h4 className={styles.title}>What&#39;s your email?</h4>
                 <input
                     type="text"
                     placeholder="Enter your email address"
@@ -61,7 +62,11 @@ const DriverSignup: React.FC = () => {
                 <h4 className={styles.title}>Enter your DOB:</h4>
                 <DatePicker
                     selected={startDate}
-                    onChange={(date: Date) => setStartDate(date)}
+                    onChange={(date: Date | null) => {
+                        if (date) {
+                            setStartDate(date);
+                        }
+                    }}
                     dateFormat="dd/MM/yyyy"
                     className={styles.datePicker}
                     placeholderText="Enter your date of birth"
@@ -102,12 +107,12 @@ const DriverSignup: React.FC = () => {
                 </div>
 
                 <button className={styles.googleButton} onClick={handleGoogleSignup}>
-                    <img src="/google-logo.png" alt="Google Logo" className={styles.icon} />
+                    <Image src="/google-logo.png" alt="Google Logo" className={styles.icon} />
                     Sign up with Google
                 </button>
 
                 <button className={styles.appleButton} onClick={handleAppleSignup}>
-                    <img src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
+                    <Image src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
                     Sign up with Apple
                 </button>
 

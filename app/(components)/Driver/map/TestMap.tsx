@@ -16,7 +16,7 @@ interface Suggestion {
 }
 
 const TestMap = () => {
-    const intervalRef = useRef(null);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
     const [mapCenter, setMapCenter] = useState<Location>({ latitude: 0, longitude: 0 });
     const [destination, setDestination] = useState<string>('');
@@ -240,9 +240,9 @@ const TestMap = () => {
                     )}
                 </div>
             </div>
-                <button onClick={() => handleGOchange()} className={`${GO ? 'text-green-700' : 'text-red-700'} border-black border-2 rounded-xl p-2 m-2 text-xl`}>
-                    GO
-                </button>
+            <button onClick={() => handleGOchange()} className={`${GO ? 'text-green-700' : 'text-red-700'} border-black border-2 rounded-xl p-2 m-2 text-xl`}>
+                GO
+            </button>
             <div className='flex '>
                 <div id="map" className=" h-[655px] rounded-lg shadow-lg w-[900px]"></div>
             </div>

@@ -67,7 +67,7 @@ const MapWithRouting: React.FC = () => {
   const endMarkerRef = useRef<L.Marker | null>(null);
   const movingMarkerRef = useRef<L.Marker | null>(null);
   const movingMarkerTimeouts = useRef<NodeJS.Timeout[]>([]);
-  
+
   // const navigate = useNavigate(); // Initialize useNavigate hoo
   async function handleRouting() {
     try {
@@ -103,7 +103,7 @@ const MapWithRouting: React.FC = () => {
 
       if (mapRef.current) {
         const map = mapRef.current as L.Map;
-        
+
         if (routingControlRef.current) {
           routingControlRef.current.getPlan().setWaypoints([]);
           map.removeControl(routingControlRef.current);
@@ -177,16 +177,16 @@ const MapWithRouting: React.FC = () => {
   }, [startCoords, endCoords, selectedMarkerType]);
 
   return (
-    <div className="p-4"> 
+    <div className="p-4">
       <div className="flex flex-col space-y-4  -ml-[370px] w-[300px] p-6 bg-white rounded-lg shadow-md">
         <div> <h1 className="font-bold text-3xl p-4">Get a ride</h1>
-          <label htmlFor="Start" className=" font-bold text-2xl block text-sm font-medium text-gray-1000"></label>
-          <input 
+          <label htmlFor="Start" className=" font-bold text-2xl block text-gray-1000"></label>
+          <input
             type="text"
-            placeholder=  "Pickup location"
+            placeholder="Pickup location"
             value={startCity}
             onChange={(e) => setStartCity(e.target.value)}
-            
+
             className="mt-1 block w-60 pl-3 pr-10 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
@@ -215,7 +215,7 @@ const MapWithRouting: React.FC = () => {
         </div>
         <button
           onClick={handleRouting}
-          className="mt-2 block w-60 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
+          className="mt-2 block w-60 items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
         >
           Show Route
         </button>

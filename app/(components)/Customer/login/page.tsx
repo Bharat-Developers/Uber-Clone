@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import validator from 'validator';
 import styles from './Login.module.css';
+import Image from 'next/image';
 
 const Login: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
@@ -48,7 +49,7 @@ const Login: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.formBackground}>
-                <h4 className={styles.title}>What's your phone number or email?</h4>
+                <h4 className={styles.title}>What&#39;s your phone number or email?</h4>
                 <input
                     type="text"
                     placeholder="Enter your phone number or email address"
@@ -70,11 +71,11 @@ const Login: React.FC = () => {
                     <hr className={styles.hr} />
                 </div>
                 <button className={styles.googleButton} onClick={handleGoogleLogin}>
-                    <img src="/google-logo.png" alt="Google Logo" className={styles.icon} />
+                    <Image src="/google-logo.png" alt="Google Logo" className={styles.icon} />
                     Continue with Google
                 </button>
                 <button className={styles.appleButton} onClick={handleAppleLogin}>
-                    <img src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
+                    <Image src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
                     Continue with Apple
                 </button>
                 <div className={styles.orContainer}>
@@ -83,7 +84,7 @@ const Login: React.FC = () => {
                     <hr className={styles.hr} />
                 </div>
                 <button className={styles.findAccountButton} onClick={handleFindAccount}>
-                    <img src="/search-icon.png" alt="Search Icon" className={styles.icon} />
+                    <Image src="/search-icon.png" alt="Search Icon" className={styles.icon} />
                     Find my account
                 </button>
                 {/* <button className={styles.qrButton} onClick={handleQRLogin}>

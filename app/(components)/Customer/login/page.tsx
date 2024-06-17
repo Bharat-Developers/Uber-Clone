@@ -52,22 +52,6 @@ const Login: React.FC = () => {
         }
     };
 
-    // const handleGoogleLogin = async () => {
-    //     console.error('Google login Clicked');
-    // };
-
-    // const handleAppleLogin = async () => {
-    //     console.log('Apple login clicked');
-    // };
-
-    // const handleFindAccount = async () => {
-    //     console.log('Find my account clicked');
-    // };
-
-    // const handleQRLogin = async () => {
-    //     console.log('Log in with QR code Clicked');
-    // };
-
     return (
         <div className={styles.container}>
             <div className={styles.formBackground}>
@@ -100,14 +84,6 @@ const Login: React.FC = () => {
                     <span className={styles.orText}>or</span>
                     <hr className={styles.hr} />
                 </div>
-                <button className={styles.googleButton} >
-                    {/* <Image src="/google-logo.png" alt="Google Logo" className={styles.icon} /> */}
-                    Continue with Google
-                </button>
-                <button className={styles.appleButton}>
-                    {/* <Image src="/apple-logo.png" alt="Apple Logo" className={styles.icon} /> */}
-                    Continue with Apple
-                </button>
                 <div className={styles.orContainer}>
                     <hr className={styles.hr} />
                     <span className={styles.orText}>or</span>
@@ -117,10 +93,6 @@ const Login: React.FC = () => {
                     {/* <Image src="/search-icon.png" alt="Search Icon" className={styles.icon} /> */}
                     Find my account
                 </button>
-                {/* <button className={styles.qrButton} onClick={handleQRLogin}>
-                    <img src="/qr-icon.png" alt="QR Icon" className={styles.icon} />
-                    Log in with QR code
-                </button> */}
                 <p className={styles.footerText}>
                     By proceeding, you consent to get calls, WhatsApp or SMS messages, including by automated means, from Uber and its affiliates to the number provided.
                 </p>

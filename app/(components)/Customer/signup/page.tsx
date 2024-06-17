@@ -10,22 +10,39 @@ const DriverSignup: React.FC = () => {
     const searchParams = useSearchParams();
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [startDate, setStartDate] = useState<Date | null>(null);
-    const [location, setLocation] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [number, setnumber] = useState<string>('');
 
-    const handleContinue = () => {
-        // Handle continue button click
-    };
+    const handleSubmit = async () => {
+        const formData = {
+            email,
+            password,
+            name,
+            number,
+            dob: startDate,
+            termsAccepted
+        };
 
-    const handleGoogleSignup = () => {
-        // Handle Google signup button click
-    };
+        try {
+            const response = await fetch('http://localhost:5001/api/rider', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
 
-    const handleAppleSignup = () => {
-        // Handle Apple signup button click
-    };
-
-    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTermsAccepted(event.target.checked);
+            if (response.ok) {
+                console.log(response)
+                console.log("User Created", formData);
+            } else {
+                console.error("Error creating user");
+            }
+        } catch (error) {
+            console.error("Error creating user", error);
+        }
     };
 
     return (
@@ -36,6 +53,8 @@ const DriverSignup: React.FC = () => {
                     type="text"
                     placeholder="Enter your email address"
                     className={styles.input}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <h4 className={styles.title}>Enter your Password:</h4>
@@ -43,6 +62,8 @@ const DriverSignup: React.FC = () => {
                     type="password"
                     placeholder="Enter your password"
                     className={styles.input}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <h4 className={styles.title}>Enter your Name:</h4>
@@ -50,36 +71,27 @@ const DriverSignup: React.FC = () => {
                     type="text"
                     placeholder="Enter your Name"
                     className={styles.input}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
 
-                <h4 className={styles.title}>Phone Number:</h4>
+                <h4 className={styles.title}>number Number:</h4>
                 <input
                     type="text"
                     placeholder="Enter your Number"
                     className={styles.input}
+                    value={number}
+                    onChange={(e) => setnumber(e.target.value)}
                 />
 
                 <h4 className={styles.title}>Enter your DOB:</h4>
                 <DatePicker
                     selected={startDate}
-                    onChange={(date: Date | null) => {
-                        if (date) {
-                            setStartDate(date);
-                        }
-                    }}
+                    onChange={(date: Date | null) => setStartDate(date)}
                     dateFormat="dd/MM/yyyy"
                     className={styles.datePicker}
                     placeholderText="Enter your date of birth"
                 />
-
-                {/* <h4 className={styles.title}>Enter your Location:</h4>
-                <input
-                    type="text"
-                    placeholder="Enter your location"
-                    className={styles.input}
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                /> */}
 
                 <div className={styles.terms}>
                     <input
@@ -87,14 +99,14 @@ const DriverSignup: React.FC = () => {
                         id="terms"
                         name="terms"
                         checked={termsAccepted}
-                        onChange={handleCheckboxChange}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
                     />
                     <label htmlFor="terms"> I accept the terms and services</label>
                 </div>
 
                 <button
                     className={styles.continueButton}
-                    onClick={handleContinue}
+                    onClick={handleSubmit}
                     disabled={!termsAccepted}
                 >
                     Continue
@@ -106,13 +118,13 @@ const DriverSignup: React.FC = () => {
                     <hr className={styles.hr} />
                 </div>
 
-                <button className={styles.googleButton} onClick={handleGoogleSignup}>
-                    <Image src="/google-logo.png" alt="Google Logo" className={styles.icon} />
+                <button className={styles.googleButton}>
+                    {/* <Image src="/google-logo.png" alt="Google Logo" className={styles.icon} /> */}
                     Sign up with Google
                 </button>
 
-                <button className={styles.appleButton} onClick={handleAppleSignup}>
-                    <Image src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
+                <button className={styles.appleButton}>
+                    {/* <Image src="/apple-logo.png" alt="Apple Logo" className={styles.icon} /> */}
                     Sign up with Apple
                 </button>
 
@@ -125,4 +137,3 @@ const DriverSignup: React.FC = () => {
 };
 
 export default DriverSignup;
-

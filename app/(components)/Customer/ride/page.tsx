@@ -14,6 +14,7 @@ const Ride: React.FC = () => {
             </div>
             <div className={styles.mapContainer}>
                 <MapWithRouting />
+                {/* <Googlemap/> */}
             </div>
 
         </div></>

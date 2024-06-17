@@ -38,6 +38,8 @@ const Login: React.FC = () => {
 
                 if (response.ok) {
                     console.log("Login successful", data);
+                    console.log(data.token)
+                    sessionStorage.setItem('token', data.token)
                     // Redirect to the progress page or another page as needed
                     router.push('/Customer/progress');
                 } else {

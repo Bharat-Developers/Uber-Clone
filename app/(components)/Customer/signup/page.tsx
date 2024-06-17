@@ -26,7 +26,7 @@ const DriverSignup: React.FC = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:5001/api/rider', {
+            const response = await fetch('http://localhost:5001/api/rider/signUp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -35,7 +35,9 @@ const DriverSignup: React.FC = () => {
             });
 
             if (response.ok) {
-                console.log(response)
+                const res = await response.json();
+                console.log(res.token)
+                sessionStorage.setItem('token', res.token)
                 console.log("User Created", formData);
             } else {
                 console.error("Error creating user");
@@ -117,16 +119,6 @@ const DriverSignup: React.FC = () => {
                     <span className={styles.orText}>or</span>
                     <hr className={styles.hr} />
                 </div>
-
-                <button className={styles.googleButton}>
-                    {/* <Image src="/google-logo.png" alt="Google Logo" className={styles.icon} /> */}
-                    Sign up with Google
-                </button>
-
-                <button className={styles.appleButton}>
-                    {/* <Image src="/apple-logo.png" alt="Apple Logo" className={styles.icon} /> */}
-                    Sign up with Apple
-                </button>
 
                 {/* <p className={styles.footerText}>
                     By proceeding, you consent to get calls, WhatsApp, or SMS messages, including by automated means, from Uber and its affiliates to the number provided.

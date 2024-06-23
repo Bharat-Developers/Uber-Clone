@@ -2,11 +2,11 @@
 import React, { useEffect, useState, ChangeEvent, useRef } from 'react';
 import "leaflet/dist/leaflet.css";
 import { Location } from '@/types/Location';
-import { initializeMap, requestLocationAccess, geoSuccess, geoError, RouteHandle, currentPos } from '../../../actions/MapUtils';
+import { initializeMap, requestLocationAccess, geoSuccess, geoError, RouteHandle, currentPos } from '../../../../../Uber-Clone/app/actions/MapUtils';
 import axios from 'axios';
 import L from 'leaflet';
-import { getS2Id } from '../../../actions/getCell_Ids';
-import { UpdateDriverLocation } from '../../../actions/DriverUpdate';
+import { getS2Id } from '../../../../../Uber-Clone/app/actions/getCell_Ids';
+import { UpdateDriverLocation } from '../../../../../Uber-Clone/app/actions/DriverUpdate';
 import mongoose from 'mongoose';
 
 interface Suggestion {

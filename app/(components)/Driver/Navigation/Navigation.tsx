@@ -10,8 +10,8 @@ const Navbar = () => {
         { path: '/Driver/dashboard', label: 'Home' },
         { path: '/Driver/ride', label: 'Ride' },
         { path: '/Driver/drive', label: 'Drive' },
-        // { path: '/Driver/login-options', label: 'Login' },
-        // { path: '/Driver/signup-options', label: 'SignUp' },
+        { path: '/Driver/login-options', label: 'Login' },
+        { path: '/Driver/signup-options', label: 'SignUp' },
     ];
 
     return (

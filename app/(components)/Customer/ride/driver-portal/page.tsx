@@ -1,6 +1,6 @@
 import React from 'react';
 import DriverPortal from './DriverPortal';
-import Navbar from '../../navbar/Navbar';
+import Navbar from '../navbar/Navbar';
 import Map from '../Map';
 import styles from './page.module.css';
 

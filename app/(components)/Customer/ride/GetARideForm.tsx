@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Modal from 'react-modal';
@@ -16,11 +16,6 @@ const GetARideForm: React.FC = () => {
   const [location2, setLocation2] = useState('');
   const [suggestions1, setSuggestions1] = useState<Suggestion[]>([]);
   const [suggestions2, setSuggestions2] = useState<Suggestion[]>([]);
-  const [showProgressBar, setShowProgressBar] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [otp, setOtp] = useState(['', '', '', '']);
-  const [showOtpModal, setShowOtpModal] = useState(false);
-  const [countdown, setCountdown] = useState(30);
 
   useEffect(() => {
     if (typeof document !== 'undefined' && document.querySelector('#__next')) {
@@ -75,44 +70,7 @@ const GetARideForm: React.FC = () => {
   };
 
   const handleConfirm = () => {
-    setShowProgressBar(true);
-    setProgress(0);
-
-    const updateProgress = () => {
-      setProgress(prevProgress => {
-        const newProgress = prevProgress + 1;
-        if (newProgress >= 100) {
-          clearInterval(progressInterval);
-          setShowOtpModal(true); // Show OTP modal when progress reaches 100%
-        }
-        return newProgress;
-      });
-    };
-
-    const progressInterval = setInterval(updateProgress, 100);
-  };
-
-  const handleOtpChange = (value: string, index: number) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-  };
-
-  useEffect(() => {
-    if (showOtpModal && countdown > 0) {
-      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [showOtpModal, countdown]);
-
-  const handleResendOtp = () => {
-    setCountdown(30);
-    setOtp(['', '', '', '']);
-    // Add logic to resend OTP here
-  };
-
-  const handleSubmitOtp = () => {
-    // Assuming OTP is correct and submission is successful
+    // Navigate to find-driver page
     router.push('./ride/driver-portal');
   };
 
@@ -195,67 +153,7 @@ const GetARideForm: React.FC = () => {
         >
           Confirm
         </button>
-        {showProgressBar && (
-          <div style={{ marginTop: '16px', width: '100%' }}>
-            <div style={{ height: '24px', backgroundColor: '#e9ecef', borderRadius: '4px' }}>
-              <div
-                style={{
-                  width: `${progress}%`,
-                  height: '100%',
-                  backgroundColor: '#28a745',
-                  borderRadius: '4px',
-                  transition: 'width 0.1s ease-in-out',
-                }}
-              ></div>
-            </div>
-            <p>{progress}%</p>
-          </div>
-        )}
       </form>
-
-      <Modal
-        isOpen={showOtpModal}
-        onRequestClose={() => setShowOtpModal(false)}
-        style={{
-          content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            width: '300px',
-            textAlign: 'center',
-          },
-        }}
-      >
-        <h2>Enter OTP</h2>
-        <div style={{ display: 'flex', justifyContent: 'space-around', margin: '1rem 0' }}>
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              type="text"
-              value={digit}
-              onChange={(e) => handleOtpChange(e.target.value, index)}
-              maxLength={1}
-              style={{
-                width: '2rem',
-                height: '2rem',
-                fontSize: '1.5rem',
-                textAlign: 'center',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                margin: '0 0.25rem' // Adjusted margin for better spacing
-              }}
-            />
-          ))}
-        </div>
-        <p>{countdown} seconds remaining</p>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
-          <button onClick={handleResendOtp} disabled={countdown > 0}>Resend OTP</button>
-          <button onClick={handleSubmitOtp}>Submit OTP</button>
-        </div>
-      </Modal>
     </div>
   );
 };

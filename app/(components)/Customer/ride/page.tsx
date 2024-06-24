@@ -3,7 +3,7 @@ import GetARideForm from './GetARideForm';
 import Map from './Map';
 // import MapWithRouting from '../MapWithRouting'
 import styles from './page.module.css';
-import Navbar from '../navbar/Navbar';
+import Navbar from './navbar/Navbar';
 import DriverPortal from './driver-portal/DriverPortal';
 const Ride: React.FC = () => {
     return (

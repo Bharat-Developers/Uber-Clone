@@ -7,6 +7,7 @@ import styles from './Login.module.css';
 
 const Login: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
+    const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const searchParams = useSearchParams();
     const role = searchParams ? searchParams.get('role') : null;
@@ -17,17 +18,31 @@ const Login: React.FC = () => {
         setErrorMessage('');
     };
 
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+        setErrorMessage('');
+    };
+
     const handleContinue = () => {
-        if (validator.isEmail(inputValue) || validator.isMobilePhone(inputValue, 'any', { strictMode: false })) {
-            router.push('/Customer/progress');
+        if (
+            (validator.isEmail(inputValue) || validator.isMobilePhone(inputValue, 'any', { strictMode: false })) &&
+            password.length >= 6
+        ) {
+            if (role === 'ride') {
+                router.push('/Customer/ride');
+            } else if (role === 'drive') {
+                router.push('/Driver/drive');
+            } else {
+                setErrorMessage('Invalid role specified.');
+            }
         } else {
-            setErrorMessage('Please enter a valid email or phone number.');
+            setErrorMessage('Please enter a valid email or phone number and a password with at least 6 characters.');
         }
     };
 
     const handleGoogleLogin = async () => {
         try {
-            await signIn('google', { callbackUrl: role === '/Customer/ride' ? '/Customer/progress' : '/Customer/ride' });
+            await signIn('google', { callbackUrl: role === 'ride' ? '/Customer/ride' : '/Driver/drive' });
         } catch (error) {
             console.error('Google login failed', error);
         }
@@ -56,6 +71,13 @@ const Login: React.FC = () => {
                     onChange={handleInputChange}
                     className={styles.input}
                 />
+                <input
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                    className={styles.input}
+                />
                 <button className={styles.continueButton} onClick={handleContinue}>
                     Continue
                 </button>
@@ -64,12 +86,12 @@ const Login: React.FC = () => {
                         {errorMessage}
                     </div>
                 )}
-                <div className={styles.orContainer}>
-                    <hr className={styles.hr} />
+                {/* <div className={styles.orContainer}> */}
+                    {/* <hr className={styles.hr} />
                     <span className={styles.orText}>or</span>
                     <hr className={styles.hr} />
-                </div>
-                <button className={styles.googleButton} onClick={handleGoogleLogin}>
+                </div> */}
+                {/* <button className={styles.googleButton} onClick={handleGoogleLogin}>
                     <img src="/google-logo.png" alt="Google Logo" className={styles.icon} />
                     Continue with Google
                 </button>
@@ -85,7 +107,7 @@ const Login: React.FC = () => {
                 <button className={styles.findAccountButton} onClick={handleFindAccount}>
                     <img src="/search-icon.png" alt="Search Icon" className={styles.icon} />
                     Find my account
-                </button>
+                </button> */}
                 {/* <button className={styles.qrButton} onClick={handleQRLogin}>
                     <img src="/qr-icon.png" alt="QR Icon" className={styles.icon} />
                     Log in with QR code

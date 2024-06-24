@@ -1,31 +1,68 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import DatePicker from 'react-datepicker';
+import validator from 'validator';
 import styles from './signup.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const DriverSignup: React.FC = () => {
+const Signup: React.FC = () => {
     const searchParams = useSearchParams();
-    const [termsAccepted, setTermsAccepted] = useState(false);
+    const role = searchParams ? searchParams.get('role') : null;
+    const router = useRouter();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
     const [startDate, setStartDate] = useState<Date | null>(null);
-    const [location, setLocation] = useState<string>('');
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
-    const handleContinue = () => {
-        // Handle continue button click
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
+        setErrorMessage('');
     };
 
-    const handleGoogleSignup = () => {
-        // Handle Google signup button click
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
+        setErrorMessage('');
     };
 
-    const handleAppleSignup = () => { 
-        // Handle Apple signup button click
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setName(event.target.value);
+        setErrorMessage('');
+    };
+
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPhone(event.target.value);
+        setErrorMessage('');
     };
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTermsAccepted(event.target.checked);
+    };
+
+    const handleContinue = () => {
+        if (
+            validator.isEmail(email) &&
+            password.length >= 6 &&
+            name.length > 0 &&
+            validator.isMobilePhone(phone, 'any', { strictMode: false }) &&
+            startDate &&
+            termsAccepted
+        ) {
+            if (role === 'ride') {
+                router.push('/Customer/ride');
+            } else if (role === 'drive') {
+                router.push('/Driver/drive');
+            } else {
+                setErrorMessage('Invalid role specified.');
+            }
+        } else {
+            setErrorMessage('Please fill all fields correctly and accept the terms.');
+        }
     };
 
     return (
@@ -35,6 +72,8 @@ const DriverSignup: React.FC = () => {
                 <input
                     type="text"
                     placeholder="Enter your email address"
+                    value={email}
+                    onChange={handleEmailChange}
                     className={styles.input}
                 />
 
@@ -42,6 +81,8 @@ const DriverSignup: React.FC = () => {
                 <input
                     type="password"
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={handlePasswordChange}
                     className={styles.input}
                 />
 
@@ -49,6 +90,8 @@ const DriverSignup: React.FC = () => {
                 <input
                     type="text"
                     placeholder="Enter your Name"
+                    value={name}
+                    onChange={handleNameChange}
                     className={styles.input}
                 />
 
@@ -56,13 +99,15 @@ const DriverSignup: React.FC = () => {
                 <input
                     type="text"
                     placeholder="Enter your Number"
+                    value={phone}
+                    onChange={handlePhoneChange}
                     className={styles.input}
                 />
 
                 <h4 className={styles.title}>Enter your DOB:</h4>
                 <DatePicker
                     selected={startDate}
-                    onChange={(date: Date) => setStartDate(date)}
+                    onChange={(date: Date | null) => setStartDate(date)}
                     dateFormat="dd/MM/yyyy"
                     className={styles.datePicker}
                     placeholderText="Enter your date of birth"
@@ -87,28 +132,18 @@ const DriverSignup: React.FC = () => {
                     Continue
                 </button>
 
-                <div className={styles.orContainer}>
-                    <hr className={styles.hr} />
-                    <span className={styles.orText}>or</span>
-                    <hr className={styles.hr} />
-                </div>
+                {errorMessage && (
+                    <div className={styles.errorMessage}>
+                        {errorMessage}
+                    </div>
+                )}
 
-                <button className={styles.googleButton} onClick={handleGoogleSignup}>
-                    <img src="/google-logo.png" alt="Google Logo" className={styles.icon} />
-                    Sign up with Google
-                </button>
-
-                <button className={styles.appleButton} onClick={handleAppleSignup}>
-                    <img src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
-                    Sign up with Apple
-                </button>
-
-                {/* <p className={styles.footerText}>
-                    By proceeding, you consent to get calls, WhatsApp, or SMS messages, including by automated means, from Uber and its affiliates to the number provided.
-                </p> */}
+                <p className={styles.footerText}>
+                    By proceeding, you consent to get calls, WhatsApp or SMS messages, including by automated means, from Uber and its affiliates to the number provided.
+                </p>
             </div>
         </div>
     );
 };
 
-export default DriverSignup;
+export default Signup;

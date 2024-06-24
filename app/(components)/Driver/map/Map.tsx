@@ -1,69 +1,67 @@
-"use client";
+'use client';
+import React, { useRef, useEffect } from 'react';
+import "leaflet/dist/leaflet.css";
+import L, { LatLngTuple } from "leaflet";
+import "leaflet-routing-machine";
+ // Ensure this import matches the path to your CSS file
 
-import React, { useEffect, useState } from 'react';
-import L, { Map as LeafletMap, Marker as LeafletMarker, Circle as LeafletCircle } from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-
-const MapComponent: React.FC = () => {
-    const [map, setMap] = useState<LeafletMap | null>(null);
-    const [marker, setMarker] = useState<LeafletMarker | null>(null);
-    const [circle, setCircle] = useState<LeafletCircle | null>(null);
+const TestMap = () => {
+    const mapRef = useRef<L.Map | null>(null);
 
     useEffect(() => {
-        // Map initialization
-        const mapInstance = L.map('map').setView([20.5937, 78.9629], 6);
+        if (mapRef.current === null) {
+            mapRef.current = L.map('map').setView([0, 0], 10);
 
-        // OSM layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(mapInstance);
+            L.tileLayer("http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png", {
+                attribution: "OSM",
+            }).addTo(mapRef.current);
 
-        setMap(mapInstance);
+            navigator.geolocation.watchPosition(GeoSuccess, GeoError, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            });
 
-        // Clean up the map instance on component unmount
-        return () => {
-            if (mapInstance) {
-                mapInstance.remove();
-            }
-        };
+        } else {
+            mapRef.current.setView([0, 0], 10);
+        }
+
+        function GeoSuccess(pos: GeolocationPosition) {
+            const { latitude, longitude, accuracy } = pos.coords;
+            const currentPos: LatLngTuple = [latitude, longitude];
+
+            mapRef.current?.setView(currentPos, 13);
+            L.marker(currentPos).addTo(mapRef.current!).bindPopup("I am Here").openPopup();
+            L.circleMarker(currentPos, { radius: accuracy / 2 }).addTo(mapRef.current!);
+            console.log(latitude, longitude);
+            // const distance = calculateDistance(currentPos, targetPos);   
+            // console.log(`Distance: ${distance} km`);
+        }
+
+        function GeoError(error: GeolocationPositionError) {
+            console.error(error);
+        }
+
+        function calculateDistance([lat1, lon1]: [number, number], [lat2, lon2]: [number, number]): number {
+            const toRad = (x: number) => x * Math.PI / 180;
+
+            const R = 6371; // Radius of the Earth in km
+            const dLat = toRad(lat2 - lat1);
+            const dLon = toRad(lon2 - lon1);
+            const a =
+                Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c; // Distance in km
+        }
     }, []);
 
-    useEffect(() => {
-        if (map && navigator.geolocation) {
-            const watchId = navigator.geolocation.watchPosition(
-                position => {
-                    const { latitude, longitude, accuracy } = position.coords;
+    return (
+        <div>
+            <div id="map" className="mapContainer"></div>
+        </div>
+    );
+}
 
-                    if (marker) {
-                        marker.setLatLng([latitude, longitude]);
-                    } else {
-                        const newMarker = L.marker([latitude, longitude]).addTo(map);
-                        setMarker(newMarker);
-                    }
-
-                    if (circle) {
-                        circle.setLatLng([latitude, longitude]);
-                        circle.setRadius(accuracy);
-                    } else {
-                        const newCircle = L.circle([latitude, longitude], { radius: accuracy }).addTo(map);
-                        setCircle(newCircle);
-                    }
-
-                    console.log(`Your coordinate is: Lat: ${latitude} Long: ${longitude} Accuracy: ${accuracy}`);
-                },
-                error => console.log(error),
-                { enableHighAccuracy: true }
-            );
-
-            return () => {
-                navigator.geolocation.clearWatch(watchId);
-            };
-        } else {
-            console.log("Your browser doesn't support geolocation feature!");
-        }
-    }, [map, marker, circle]);
-
-    return <div id="map" style={{ height: '100vh', zIndex: 2 }} />; // Higher z-index
-};
-
-export default MapComponent;
+export default TestMap;

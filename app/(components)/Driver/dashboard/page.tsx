@@ -1,10 +1,12 @@
-import React from 'react'
-import Dashboard from './Dashboard';
+import React from 'react';
+import Layout from './Navbar/Layout';
+import TestMap from '../map/TestMap';
 
-export default function page() {
+const Home: React.FC = () => {
   return (
-    <div>
-      <Dashboard/>
-    </div>
-  )
-}
+    <>
+    <button >Go</button></>
+  );
+};
+
+export default Home;

@@ -49,6 +49,7 @@ const Login: React.FC = () => {
                 headers : {
                     'Content-Type' : 'application/json'
                 },
+                // authorisation : 
                 body : JSON.stringify(formData)
             })
             console.log("User Created", formData)
@@ -106,16 +107,6 @@ const Login: React.FC = () => {
                     required
                 />
             </div>
-            {/* <div>
-                <label htmlFor="location">Location (Driver):</label>
-                <input
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={handleChange}
-                />
-            </div> */}
             <div>
                 <label htmlFor="dob">DOB:</label>
                 <input

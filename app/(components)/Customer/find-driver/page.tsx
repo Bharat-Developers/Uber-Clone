@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Navbar from '../navbar/Navbar';
-import RideOptions from '../RideOptions';
+import RideOptions from './RideOptions';
 import styles from './FindDriverButton.module.css';
 
 const FindDriverPage = () => {

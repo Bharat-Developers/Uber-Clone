@@ -1,62 +1,41 @@
 "use client";
+
 import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import DatePicker from 'react-datepicker';
 import styles from './signup.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import Image from 'next/image';
 
 const DriverSignup: React.FC = () => {
     const searchParams = useSearchParams();
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [startDate, setStartDate] = useState<Date | null>(null);
-    const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [number, setnumber] = useState<string>('');
+    const [location, setLocation] = useState<string>('');
 
-    const handleSubmit = async () => {
-        const formData = {
-            email,
-            password,
-            name,
-            number,
-            dob: startDate,
-            termsAccepted
-        };
+    const handleContinue = () => {
+        // Handle continue button click
+    };
 
-        try {
-            const response = await fetch('http://localhost:5001/api/rider/signUp', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
+    const handleGoogleSignup = () => {
+        // Handle Google signup button click
+    };
 
-            if (response.ok) {
-                const res = await response.json();
-                console.log(res.token)
-                sessionStorage.setItem('token', res.token)
-                console.log("User Created", formData);
-            } else {
-                console.error("Error creating user");
-            }
-        } catch (error) {
-            console.error("Error creating user", error);
-        }
+    const handleAppleSignup = () => { 
+        // Handle Apple signup button click
+    };
+
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTermsAccepted(event.target.checked);
     };
 
     return (
         <div className={styles.container}>
             <div className={styles.formBackground}>
-                <h4 className={styles.title}>What&#39;s your email?</h4>
+                <h4 className={styles.title}>What's your email?</h4>
                 <input
                     type="text"
                     placeholder="Enter your email address"
                     className={styles.input}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <h4 className={styles.title}>Enter your Password:</h4>
@@ -64,8 +43,6 @@ const DriverSignup: React.FC = () => {
                     type="password"
                     placeholder="Enter your password"
                     className={styles.input}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                 />
 
                 <h4 className={styles.title}>Enter your Name:</h4>
@@ -73,23 +50,19 @@ const DriverSignup: React.FC = () => {
                     type="text"
                     placeholder="Enter your Name"
                     className={styles.input}
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
                 />
 
-                <h4 className={styles.title}>number Number:</h4>
+                <h4 className={styles.title}>Phone Number:</h4>
                 <input
                     type="text"
                     placeholder="Enter your Number"
                     className={styles.input}
-                    value={number}
-                    onChange={(e) => setnumber(e.target.value)}
                 />
 
                 <h4 className={styles.title}>Enter your DOB:</h4>
                 <DatePicker
                     selected={startDate}
-                    onChange={(date: Date | null) => setStartDate(date)}
+                    onChange={(date: Date) => setStartDate(date)}
                     dateFormat="dd/MM/yyyy"
                     className={styles.datePicker}
                     placeholderText="Enter your date of birth"
@@ -101,14 +74,14 @@ const DriverSignup: React.FC = () => {
                         id="terms"
                         name="terms"
                         checked={termsAccepted}
-                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                        onChange={handleCheckboxChange}
                     />
                     <label htmlFor="terms"> I accept the terms and services</label>
                 </div>
 
                 <button
                     className={styles.continueButton}
-                    onClick={handleSubmit}
+                    onClick={handleContinue}
                     disabled={!termsAccepted}
                 >
                     Continue
@@ -119,6 +92,16 @@ const DriverSignup: React.FC = () => {
                     <span className={styles.orText}>or</span>
                     <hr className={styles.hr} />
                 </div>
+
+                <button className={styles.googleButton} onClick={handleGoogleSignup}>
+                    <img src="/google-logo.png" alt="Google Logo" className={styles.icon} />
+                    Sign up with Google
+                </button>
+
+                <button className={styles.appleButton} onClick={handleAppleSignup}>
+                    <img src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
+                    Sign up with Apple
+                </button>
 
                 {/* <p className={styles.footerText}>
                     By proceeding, you consent to get calls, WhatsApp, or SMS messages, including by automated means, from Uber and its affiliates to the number provided.

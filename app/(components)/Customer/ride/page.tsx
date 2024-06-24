@@ -1,21 +1,24 @@
 import React from 'react';
-// import GetARideForm from '../GetARideForm';
-// import Map from '../Map';
-import MapWithRouting from '../map/MapWithRouting'
+import GetARideForm from './GetARideForm';
+import Map from './Map';
+// import MapWithRouting from '../MapWithRouting'
 import styles from './page.module.css';
 import Navbar from '../navbar/Navbar';
+import DriverPortal from './driver-portal/DriverPortal';
 const Ride: React.FC = () => {
     return (
         <><Navbar /><div className={styles.container}>
 
             <div className={styles.formContainer}>
-                {/* <GetARideForm /> */}
+                <GetARideForm />
 
             </div>
             <div className={styles.mapContainer}>
-                <MapWithRouting />
-                {/* <Googlemap/> */}
+                <Map />
             </div>
+            {/* <div className={styles.driverContainer}>
+                <DriverPortal />
+            </div> */}
 
         </div></>
     );

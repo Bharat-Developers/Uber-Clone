@@ -46,11 +46,12 @@
     height: 40px;
     animation: slideInFromRight 1s ease;
 }
+
 .datePicker {
     width: 12963%;
     padding: 0.5rem;
     margin-bottom: 1rem;
-    background-color:white;
+    background-color: white;
     color: #060606;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -59,13 +60,14 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
     animation: popIn 1s ease;
     margin-inline-start: -12rem;
-  }
-  .terms{
+}
+
+.terms {
     margin-bottom: 1rem;
     margin-left: -110px;
     font-size: 18px;
-  }
-  
+}
+
 .continueButton {
     width: 100%;
     padding: 0.5rem;
@@ -81,7 +83,7 @@
 }
 
 .continueButton:hover {
-    background-color: #333;
+    background-color: #000;
     transform: scale(1.05);
 }
 
@@ -123,7 +125,8 @@
     transition: transform 0.3s ease;
     animation: popIn 1s ease;
 }
-.appleButton{
+
+.appleButton {
     width: 100%;
     padding: 0.5rem;
     /* margin-bottom: 1rem; */
@@ -139,9 +142,9 @@
     transition: transform 0.3s ease;
     animation: popIn 1s ease;
 }
+
 .googleButton:hover,
-.appleButton:hover
- {
+.appleButton:hover {
     transform: scale(1.05);
 }
 
@@ -164,6 +167,7 @@
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -174,6 +178,7 @@
         transform: translateY(20px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -185,6 +190,7 @@
         transform: translateX(-20px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -196,6 +202,7 @@
         transform: translateX(20px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -207,6 +214,7 @@
         transform: scale(0.9);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
@@ -218,6 +226,7 @@
         transform: rotate(-360deg);
         opacity: 0;
     }
+
     to {
         transform: rotate(0);
         opacity: 1;

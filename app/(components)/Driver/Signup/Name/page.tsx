@@ -1,10 +1,10 @@
 import React from 'react'
-import Email from './Email'
+import Name from './Name'
 
 export default function page() {
   return (
-    <div>
-        <Email/>
-    </div>
+    <>
+      <Name />
+    </>
   )
 }

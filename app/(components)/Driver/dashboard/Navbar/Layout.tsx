@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import styles from './Layout.module.css';
-import Popup from '../../Trip_portal/Popup';
+import Popup from '../../activeTrip/Popup';
 
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

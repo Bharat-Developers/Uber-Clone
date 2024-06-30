@@ -1,10 +1,10 @@
 import React from 'react'
-import Location from './Location/Location'
-import Email from './Email/Email'
+import Name from './Name/Name'
+
 export default function signup() {
   return (
-<>
-    <Email/>
-</>
+    <>
+      <Name />
+    </>
   )
 }

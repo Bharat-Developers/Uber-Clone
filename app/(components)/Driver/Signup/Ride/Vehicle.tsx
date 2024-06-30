@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation'; // Import useRouter hook from next/navigation
 
@@ -8,7 +8,10 @@ export default function Ride() {
 
   const handleSelect = (option: string) => {
     // Navigate to the next page with the selected option
-    router.push(`/Driver/Signup/Documents/?ride=${option}`);
+    document.cookie = `Ride=${option}; path=/Driver/signup`;
+    console.log(option)
+
+    router.push(`/Driver/signup/Documents/?ride=${option}`);
   };
 
   return (
@@ -25,22 +28,22 @@ export default function Ride() {
             Select the type of vehicle you want to drive with Uber.
           </p>
           <div className="mt-4 text-sm">
-            <div 
-              className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200" 
+            <div
+              className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200"
               onClick={() => handleSelect('car')}
             >
               <span>Car</span>
               <Image src="/car.jpeg" height={40} width={40} alt="Car" />
             </div>
-            <div 
-              className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200" 
+            <div
+              className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200"
               onClick={() => handleSelect('auto')}
             >
               <span>Auto</span>
               <Image src="/auto.jpeg" height={40} width={40} alt="Auto" />
             </div>
-            <div 
-              className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200" 
+            <div
+              className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200"
               onClick={() => handleSelect('2-wheeler')}
             >
               <span>2-Wheeler</span>

@@ -9,24 +9,25 @@ const Navbar: React.FC = () => {
   const router = useRouter(); // Initialize the router
 
   const navLinks = [
-    { path: '/Customer/ride', label: 'Ride' },
-    { path: '/', label: 'Signout' },
+    { path: '/Customer/ride', label: 'Ride' },  // ari: Why is 'Ride' label here ? no usecase
+    { path: '/', label: 'Signout', signout: true },
   ];
 
   const handleSignOut = () => {
+    document.cookie = 'token=; Max-Age=0; path=/';
     // Add your sign out logic here if needed
-    router.push('/'); 
+    router.push('/');
   };
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <Link href="/">Uber</Link>
+        <Link href="/" onClick={handleSignOut}>Uber</Link>
       </div>
       <ul className={styles.navLinks}>
         {navLinks.map((link) => (
           <li key={link.path} className={pathname === link.path ? styles.active : ''}>
-            <Link href={link.path}>{link.label}</Link>
+            <Link href={link.path} onClick={link.signout ? handleSignOut : undefined}>{link.label}</Link>
           </li>
         ))}
         {/* Sign Out button will always be present */}

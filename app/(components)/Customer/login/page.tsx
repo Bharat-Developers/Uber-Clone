@@ -1,16 +1,18 @@
 "use client";
 import React, { useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
 import validator from 'validator';
 import styles from './Login.module.css';
+import cookie from 'cookie'
+// import { useAuth } from '../../AuthContext/auth'
 
 const Login: React.FC = () => {
     const [inputValue, setInputValue] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const searchParams = useSearchParams();
-    const role = searchParams ? searchParams.get('role') : null;
+    // const { storeToken, isAuthenticated } = useAuth()
+
     const router = useRouter();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,47 +25,55 @@ const Login: React.FC = () => {
         setErrorMessage('');
     };
 
-    const handleContinue = () => {
+    const handleContinue = async () => {
         if (
             (validator.isEmail(inputValue) || validator.isMobilePhone(inputValue, 'any', { strictMode: false })) &&
             password.length >= 6
         ) {
-            if (role === 'ride') {
-                router.push('/Customer/ride');
-            } else if (role === 'drive') {
-                router.push('/Driver/drive');
-            } else {
-                setErrorMessage('Invalid role specified.');
+            const email = inputValue // since backend takes in "req.email" as argument, we consider the variable email to contain both email and phone number
+            try {
+                let emailOrNum;
+                validator.isEmail(inputValue) ? emailOrNum = true : emailOrNum = false
+                const formData = {
+                    email,
+                    password,
+                    emailOrNum
+                }
+                const response = await fetch('http://localhost:5001/api/rider/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                })
+
+                console.log("User logged in", formData)
+                const data = await response.json();
+                console.log('data: ', data);
+                const token = data.token
+                if (response.statusText === "Unauthorized") {
+                    setErrorMessage("Wrong email or password")
+                }
+                else {
+                    document.cookie = `token=${token}; path=/`;
+                    router.push('/Customer/ride');
+                }
             }
+            catch (error) {
+                console.log('--error occured--: ', error);
+                // OR :- setErrorMessage(data.msg)
+            }
+
         } else {
             setErrorMessage('Please enter a valid email or phone number and a password with at least 6 characters.');
         }
     };
 
-    const handleGoogleLogin = async () => {
-        try {
-            await signIn('google', { callbackUrl: role === 'ride' ? '/Customer/ride' : '/Driver/drive' });
-        } catch (error) {
-            console.error('Google login failed', error);
-        }
-    };
-
-    const handleAppleLogin = async () => {
-        console.log('Apple login clicked');
-    };
-
-    const handleFindAccount = async () => {
-        console.log('Find my account clicked');
-    };
-
-    const handleQRLogin = async () => {
-        console.log('Log in with QR code clicked');
-    };
 
     return (
         <div className={styles.container}>
             <div className={styles.formBackground}>
-                <h4 className={styles.title}>What's your phone number or email?</h4>
+                <h4 className={styles.title}>What&apos;s your phone number or email?</h4>
                 <input
                     type="text"
                     placeholder="Enter your phone number or email address"
@@ -86,32 +96,6 @@ const Login: React.FC = () => {
                         {errorMessage}
                     </div>
                 )}
-                {/* <div className={styles.orContainer}> */}
-                    {/* <hr className={styles.hr} />
-                    <span className={styles.orText}>or</span>
-                    <hr className={styles.hr} />
-                </div> */}
-                {/* <button className={styles.googleButton} onClick={handleGoogleLogin}>
-                    <img src="/google-logo.png" alt="Google Logo" className={styles.icon} />
-                    Continue with Google
-                </button>
-                <button className={styles.appleButton} onClick={handleAppleLogin}>
-                    <img src="/apple-logo.png" alt="Apple Logo" className={styles.icon} />
-                    Continue with Apple
-                </button>
-                <div className={styles.orContainer}>
-                    <hr className={styles.hr} />
-                    <span className={styles.orText}>or</span>
-                    <hr className={styles.hr} />
-                </div>
-                <button className={styles.findAccountButton} onClick={handleFindAccount}>
-                    <img src="/search-icon.png" alt="Search Icon" className={styles.icon} />
-                    Find my account
-                </button> */}
-                {/* <button className={styles.qrButton} onClick={handleQRLogin}>
-                    <img src="/qr-icon.png" alt="QR Icon" className={styles.icon} />
-                    Log in with QR code
-                </button> */}
                 <p className={styles.footerText}>
                     By proceeding, you consent to get calls, WhatsApp or SMS messages, including by automated means, from Uber and its affiliates to the number provided.
                 </p>

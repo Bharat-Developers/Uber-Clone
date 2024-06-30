@@ -2,16 +2,43 @@
 'use client'
 import Link from 'next/link';
 import React, { useState } from 'react';
+import Aadhar from '../Aadhar/Aadhar';
+import { useRouter } from 'next/navigation';
+
 
 export default function Rc() {
   const [licensePlate, setLicensePlate] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
-  const handleLicensePlateChange = (e) => {
+  const router = useRouter();
+  const handleLicensePlateChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
     setLicensePlate(e.target.value);
   };
 
-  const handleContinue = () => {
+
+  const cookieString = document.cookie;
+  const cookieArray = cookieString.split('; ');
+  const cookieObject: Record<string, string> = {};
+
+  cookieArray.forEach(cookie => {
+    const [key, value] = cookie.split('=');
+    cookieObject[key] = value;
+  });
+
+
+
+  const email = cookieObject.email
+  const number = cookieObject.number
+  const name = cookieObject.name
+  const dob = cookieObject.dob
+  const termsAccepted = cookieObject.termsAccepted
+  const location = cookieObject.location
+  const cabType = cookieObject.Ride
+  const language = cookieObject.language
+  const password = cookieObject.password
+  const aadhar = cookieObject.aadhar
+
+
+  const handleContinue = async () => {
     // Basic validation: check if license plate number is not empty
     if (!licensePlate.trim()) {
       setErrorMessage('Please enter a license plate number.');
@@ -21,14 +48,47 @@ export default function Rc() {
       setErrorMessage('');
       // Continue with further actions (e.g., submit form)
       console.log('License plate number is valid:', licensePlate);
+
+      const data = {
+        email, password, name, number, location, language, aadhar, dob, termsAccepted, cabType, RCNo: licensePlate, vehicleModel: "Kia"
+      }
+      console.log('data sent to driver: ', data);
+      try {
+        // /api/driver/signUp
+        const response = await fetch('http://localhost:5001/api/driver/signUp', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to sign up');
+        }
+
+        const responseData = await response.json();
+        console.log('Data sent successfully:', responseData);
+
+        // Deleting all the cookies
+        document.cookie.split(";").forEach(cookie => {
+          document.cookie = cookie.split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        });
+
+        router.push('/Driver/login');
+      } catch (error) {
+        console.error('Error sending data to backend:', error);
+      }
     }
-  };
+  }
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
         <div className="bg-black text-white px-6 py-4 flex justify-between items-center rounded-t-lg">
-          <span className="text-xl font-bold"><Link href='/Driver/Signup/Documents'> &larr; &nbsp; Uber</Link></span>
+          <span className="text-xl font-bold"><Link href='/Driver/signup/Documents'> &larr; &nbsp; Uber</Link></span>
           <button className="bg-white text-black py-1 px-3 rounded">Help</button>
         </div>
         <div className="p-4">
@@ -45,9 +105,9 @@ export default function Rc() {
             className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
           />
           {errorMessage && <p className="text-red-500 text-sm mb-2">{errorMessage}</p>}
-       <Link href='/Driver/HomePage'>   <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button></Link>
+          <Link href='/Driver/HomePage'>   <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button></Link>
         </div>
       </div>
     </div>
   );
-}
+};

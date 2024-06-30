@@ -8,15 +8,15 @@ const SignupOptions: React.FC = () => {
     const router = useRouter();
 
     const handleClose = () => {
-        router.push('/'); 
+        router.push('/');
     };
 
     const handleDriveAndDeliver = () => {
-        router.push('/Customer/signup?role=drive');
+        router.push('/Driver/signup');
     };
 
     const handleRide = () => {
-        router.push('/Customer/signup?role=ride');
+        router.push('/Customer/signup');
     };
 
     return (

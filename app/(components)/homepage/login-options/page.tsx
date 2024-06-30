@@ -8,15 +8,15 @@ const LoginOptions: React.FC = () => {
     const router = useRouter();
 
     const handleClose = () => {
-        router.push('/'); 
+        router.push('/');
     };
 
     const handleDriveAndDeliver = () => {
-        router.push('/Customer/login?role=drive');
+        router.push('/Driver/login');  // Change to DRIVER correct link
     };
 
     const handleRide = () => {
-        router.push('/Customer/login?role=ride');
+        router.push('/Customer/login');
     };
 
     return (

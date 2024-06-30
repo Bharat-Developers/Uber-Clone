@@ -11,17 +11,17 @@ export default function Document() {
         <h1 className="text-3xl font-bold mb-4">Welcome User,</h1>
         <p className="text-gray-700 mb-4" > Here s what you need to do to set up your account.</p>
         <ul className="list-none">
-          <Link href='/Driver/Signup/Aadhar'>
-          <li className="flex justify-between items-center mb-2 mt-2">
-            Aadhar Card 
-            <i className="fa fa-chevron-right"></i>
-          </li></Link>
+          <Link href='/Driver/signup/Aadhar'>
+            <li className="flex justify-between items-center mb-2 mt-2">
+              Aadhar Card
+              <i className="fa fa-chevron-right"></i>
+            </li></Link>
           <hr className="border-gray-300" />
-          <Link href='/Driver/Signup/RC'>
-          <li className="flex justify-between items-center mb-2 mt-2">
-            Registration Certificate 
-            <i className="fa fa-chevron-right"></i>
-          </li></Link>
+          <Link href='/Driver/signup/RC'>
+            <li className="flex justify-between items-center mb-2 mt-2">
+              Registration Certificate
+              <i className="fa fa-chevron-right"></i>
+            </li></Link>
           <hr className="border-gray-300" />
         </ul>
       </div>

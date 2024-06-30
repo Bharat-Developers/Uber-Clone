@@ -1,44 +1,43 @@
 'use client'
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import React, { useState } from 'react';
 
-export default function Phone() {
+export default function Email() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const router = useRouter();
 
-  const handleEmailChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
 
-  const handlePhoneChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   };
 
-  const handlePasswordChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
 
-  const handleContinue = () => {
-    // Basic validation: check if email, phone number, and password are not empty
-    if (!email.trim()) {
-      setEmailError('Please enter your email.');
-    } else if (!phone.trim()) {
-      setPhoneError('Please enter your phone number.');
-    } else if (!password.trim()) {
-      setPasswordError('Please enter your password.');
-    } else {
-      // Proceed with further actions (e.g., submit form)
-      // Reset error messages
-      setEmailError('');
-      setPhoneError('');
-      setPasswordError('');
-      // Continue with further actions (e.g., submit form)
-      console.log('Form submitted successfully:', { email, phone, password });
-    }
+  const handleContinue = (e) => {
+    e.preventDefault();
+
+    // Validate email, phone, and password here (if needed)
+    // For simplicity, assuming basic validation for demonstration
+
+    // Save data to localStorage
+    document.cookie = `email=${email}; path=/Driver/signup`;
+    document.cookie = `number=${phone}; path=/Driver/signup`;
+    document.cookie = `password=${password}; path=/Driver/signup`;
+    console.log(email, phone, password)
+
+    // Navigate to the next step
+    router.push('/Driver/signup/Location');
   };
 
   return (
@@ -50,36 +49,41 @@ export default function Phone() {
         </div>
         <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">Enter Your Details</h1>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={handleEmailChange}
-            className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
-            placeholder="Enter your email"
-          />
-          {emailError && <p className="text-red-500 text-sm mb-2">{emailError}</p>}
-          <input
-            type="tel"
-            id="phone"
-            value={phone}
-            onChange={handlePhoneChange}
-            className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
-            placeholder="Enter your phone number"
-          />
-          {phoneError && <p className="text-red-500 text-sm mb-2">{phoneError}</p>}
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={handlePasswordChange}
-            className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
-            placeholder="Enter your password"
-          />
-          {passwordError && <p className="text-red-500 text-sm mb-2">{passwordError}</p>}
-          <Link href='/Driver/Signup/Location'>
-            <button className="bg-black text-white py-2 px-4 rounded w-full" onClick={handleContinue}>Continue</button>
-          </Link>
+          <form onSubmit={handleContinue}>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={handleEmailChange}
+              className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
+              placeholder="Enter your email"
+              required
+            />
+            {emailError && <p className="text-red-500 text-sm mb-2">{emailError}</p>}
+            <input
+              type="tel"
+              id="phone"
+              value={phone}
+              onChange={handlePhoneChange}
+              className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
+              placeholder="Enter your phone number"
+              required
+            />
+            {phoneError && <p className="text-red-500 text-sm mb-2">{phoneError}</p>}
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={handlePasswordChange}
+              className="block w-full bg-gray-100 border border-gray-300 p-2 rounded mb-2"
+              placeholder="Enter your password"
+              required
+            />
+            {passwordError && <p className="text-red-500 text-sm mb-2">{passwordError}</p>}
+            <button type="submit" className="bg-black text-white py-2 px-4 rounded w-full">
+              Continue
+            </button>
+          </form>
         </div>
       </div>
     </div>

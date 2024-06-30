@@ -20,7 +20,7 @@ export default function Location() {
   const [error, setError] = useState('');
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
+  const router = useRouter();
   const fetchSuggestions = useCallback(async (location: string) => {
     const requestOptions = {
       method: 'GET',
@@ -49,7 +49,9 @@ export default function Location() {
 
   const handleNext = () => {
     if (location) {
-      window.location.href = '/Driver/Signup/Language'; // Directly change the location
+      document.cookie = `location=${location}; path=/Driver/signup`;
+      console.log(location);
+      router.push('/Driver/signup/Language'); // Directly change the location
     } else {
       setError('Please enter a location');
     }
@@ -70,17 +72,17 @@ export default function Location() {
           </p>
           <div className="mt-4 text-sm">
             <label>Where would you like to earn?</label><br />
-            <input 
-              type="text" 
-              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded" 
+            <input
+              type="text"
+              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
             {suggestions.length > 0 && (
               <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
                 {suggestions.map((suggestion, index) => (
-                  <li 
-                    key={index} 
+                  <li
+                    key={index}
                     className="p-2 cursor-pointer hover:bg-gray-200"
                     onClick={() => setLocation(suggestion.properties.formatted)}
                   >

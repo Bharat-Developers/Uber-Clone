@@ -18,7 +18,7 @@ export default function LoginForm() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Basic validation: check if email and password are not empty
     if (!email.trim()) {
       setEmailError('Please enter your email.');
@@ -29,8 +29,36 @@ export default function LoginForm() {
       setEmailError('');
       setPasswordError('');
       console.log('Form submitted successfully:', { email, password });
+      const data = {
+        email,
+        password
+      }
       // Navigate to the next page
-      router.push('/Driver/Signup/Language');
+      try {
+        const response = await fetch('http://localhost:5001/api/driver/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        const responseData = await response.json();
+
+        if (response.status == 401) {
+          setPasswordError(responseData.msg + " or email")
+        }
+        if (!response.ok) {
+          console.log(responseData);
+          throw new Error('Failed to login in ');
+        }
+
+        console.log('Data sent successfully:', responseData);
+        document.cookie = `token=${responseData.token}; path=/`;
+        router.push('/Driver/dashboard');
+      }
+      catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -47,9 +75,9 @@ export default function LoginForm() {
           <p className="mt-2">Please enter your email and password to continue.</p>
           <div className="mt-4 text-sm">
             <label>Email</label><br />
-            <input 
-              type="email" 
-              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded" 
+            <input
+              type="email"
+              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded"
               value={email}
               onChange={handleEmailChange}
             />
@@ -61,9 +89,9 @@ export default function LoginForm() {
           </div>
           <div className="mt-4 text-sm">
             <label>Password</label><br />
-            <input 
-              type="password" 
-              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded" 
+            <input
+              type="password"
+              className="bg-neutral-300 w-96 h-8 mt-2 p-2 rounded"
               value={password}
               onChange={handlePasswordChange}
             />

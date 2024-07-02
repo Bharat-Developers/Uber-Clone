@@ -55,7 +55,7 @@ const Login: React.FC = () => {
                     setErrorMessage("Wrong email or password")
                 }
                 else {
-                    document.cookie = `token=${token}; path=/`;
+                    document.cookie = `Ctoken=${token}; path=/`;
                     router.push('/Customer/ride');
                 }
             }

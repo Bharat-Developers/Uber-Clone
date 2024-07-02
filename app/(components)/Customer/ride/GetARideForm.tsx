@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Modal from 'react-modal';
 import styles from './GetARideForm.module.css';
+import Link from 'next/link';
 
 interface Suggestion {
   properties: {
@@ -71,7 +72,8 @@ const GetARideForm: React.FC = () => {
 
   const handleConfirm = () => {
     // Navigate to find-driver page
-    router.push('./ride/driver-portal');
+
+    router.push('./ride/ride-portal');
   };
 
   return (
@@ -80,9 +82,9 @@ const GetARideForm: React.FC = () => {
       <form className={styles.form}>
         <div className={styles.inputGroup}>
           <label className={styles.label}></label>
-          <input 
-            type="text" 
-            className={styles.input} 
+          <input
+            type="text"
+            className={styles.input}
             value={location1}
             onChange={(e) => setLocation1(e.target.value)}
             placeholder="Pickup location"
@@ -90,8 +92,8 @@ const GetARideForm: React.FC = () => {
           {suggestions1.length > 0 && (
             <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
               {suggestions1.map((suggestion, index) => (
-                <li 
-                  key={index} 
+                <li
+                  key={index}
                   className="p-2 cursor-pointer hover:bg-gray-200"
                   onClick={() => handleSelectLocation1(suggestion.properties.formatted)}
                 >
@@ -103,9 +105,9 @@ const GetARideForm: React.FC = () => {
         </div>
         <div className={styles.inputGroup}>
           <label className={styles.label}></label>
-          <input 
-            type="text" 
-            className={styles.input} 
+          <input
+            type="text"
+            className={styles.input}
             value={location2}
             onChange={(e) => setLocation2(e.target.value)}
             placeholder="Dropoff location"
@@ -113,8 +115,8 @@ const GetARideForm: React.FC = () => {
           {suggestions2.length > 0 && (
             <ul className="bg-white border border-gray-300 mt-2 rounded w-[22rem]">
               {suggestions2.map((suggestion, index) => (
-                <li 
-                  key={index} 
+                <li
+                  key={index}
                   className="p-2 cursor-pointer hover:bg-gray-200"
                   onClick={() => handleSelectLocation2(suggestion.properties.formatted)}
                 >
@@ -146,13 +148,26 @@ const GetARideForm: React.FC = () => {
             <option>For anyone else</option>
           </select>
         </div>
-        <button 
+
+        <Link href={{
+          pathname: './ride/ride-portal',
+          query: {
+            pickup: location1,
+            dropoff: location2
+          }
+        }}
+          className={`${styles.button} ${styles.confirmButton}`}
+        >
+          Confirm
+        </Link>
+
+        {/* <button 
           type="button" 
           className={`${styles.button} ${styles.confirmButton}`} 
           onClick={handleConfirm}
         >
-          Confirm
-        </button>
+          
+        </button> */}
       </form>
     </div>
   );

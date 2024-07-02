@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   ];
 
   const handleSignOut = () => {
-    document.cookie = 'token=; Max-Age=0; path=/';
+    document.cookie = 'Ctoken=; Max-Age=0; path=/';
     // Add your sign out logic here if needed
     router.push('/');
   };

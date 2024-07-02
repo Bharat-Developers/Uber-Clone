@@ -53,7 +53,7 @@ export default function LoginForm() {
         }
 
         console.log('Data sent successfully:', responseData);
-        document.cookie = `token=${responseData.token}; path=/`;
+        document.cookie = `Dtoken=${responseData.token}; path=/`;
         router.push('/Driver/dashboard');
       }
       catch (err) {

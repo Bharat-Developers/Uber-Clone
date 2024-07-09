@@ -11,10 +11,22 @@ interface Suggestion {
   };
 }
 
-const GetARideForm: React.FC = () => {
+interface GetFormProps {
+  location1: string
+  location2: string
+  setLocation1: (location1: string) => void
+  setLocation2: (location2: string) => void
+}
+
+const GetARideForm: React.FC<GetFormProps> = ({
+  location1,
+  location2,
+  setLocation1,
+  setLocation2
+}
+) => {
   const router = useRouter();
-  const [location1, setLocation1] = useState('');
-  const [location2, setLocation2] = useState('');
+  
   const [suggestions1, setSuggestions1] = useState<Suggestion[]>([]);
   const [suggestions2, setSuggestions2] = useState<Suggestion[]>([]);
 
@@ -150,7 +162,7 @@ const GetARideForm: React.FC = () => {
         </div>
 
         <Link href={{
-          pathname: './ride/ride-portal',
+          pathname: '/Customer/ride/ride-portal',
           query: {
             pickup: location1,
             dropoff: location2

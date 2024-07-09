@@ -3,11 +3,14 @@ import React, { useState } from 'react'
 import Contact from './Contact'
 import Popup from './Popup'
 import Navbar from '../dashboard/Navbar/Navbar'
+import Stop from './Stop'
 import TripDetails from './TripDetails'
 import socket from '@/webSocket/driverSocket'
 import { useRouter } from 'next/navigation'
-import {setCookie,eraseCookie} from '@/app/actions/function'
+import {setCookie,eraseCookie} from '@/app/functions/Cookies'
 import cookie from 'cookie'
+import Map from './Map'
+import { getS2Id } from '@/app/functions/getCell_Ids'
 function page() {
 
   if (!socket.active) {
@@ -20,48 +23,59 @@ function page() {
     const cookies = cookie.parse(document.cookie);
     let data = null
     data = cookies.tripAccepted
-    if (data!= undefined) {
+    
+    if (data) {
+      data = JSON.parse(data)
       socket.emit('join room', data.room_id) 
       setTripAccepted(data)
       setIsAccepted(true)
     }
     let data2 = null
     data2 = cookies.onGoing
-    if (data2!=undefined ) {
+
+    if (data2 ) {
+        data2 = JSON.parse(data2)
         socket.emit('join room', data2.room_id) 
         setOnGoing(data2)
         setIsOnGoing(true)
       }
     
+      // get location access and update in database
       try {
         let token = null;
         if(cookies.Dtoken != undefined){
           token = cookies.Dtoken
         }
         if(token!=undefined && token!=null){
-          const response = await fetch('http://localhost:5001/api/availableDriver/', {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `${token}`
-            },
-            body: JSON.stringify({
-              "cell_id": "7156836981807251456",
-              "action": "push"
-            })
-          });
-          const responseData = await response.json();
-    
-          if (response.status == 401) {
-            console.log('no valid token')
-            console.log(responseData)
-          }
-          if (!response.ok) {
-            console.log(responseData);
-            ;
-          }
-        }
+          if(navigator.geolocation){
+            navigator.geolocation.getCurrentPosition(async (position)=>{
+              const id = await getS2Id({ latitude: position.coords.latitude, longitude: position.coords.longitude });
+              const response = await fetch('http://localhost:5001/api/availableDriver/', {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `${token}`
+                },
+                body: JSON.stringify({
+                  "cell_id": id,
+                  "action": "push"
+                })
+              });
+              const responseData = await response.json();
         
+              if (response.status == 401) {
+                console.log('no valid token')
+                console.log(responseData)
+              }
+              if (!response.ok) {
+                console.log(responseData);
+                ;
+              }
+            })
+          
+          
+        }
+      }
       } catch (err) {
         console.log(err)
       }
@@ -76,7 +90,7 @@ function page() {
   const [isAccepted, setIsAccepted] = useState(false)
   const [isOnGoing, setIsOnGoing] = useState(false)
   const [showRequest, setShowRequest] = useState(false)
-  
+  const [cell_id,setCell_id] = useState("7156836981807251456")
 
   //socket events
   socket.on('ride request', (data) => {
@@ -91,7 +105,7 @@ function page() {
     // this will remove all drivers in room and only rider and driver accepted is in room
   })
 
-  socket.on('tranfered', () => {
+  socket.on('tranfered', (data) => {
     setShowRequest(false)
     setTripRequest({})
     // hide the pop up
@@ -100,7 +114,7 @@ function page() {
 
   socket.on('canceled-rider', (data) => {
 
-    if(data.room_id = tripAccepted.room_id){
+    if(data.room_id == tripAccepted.room_id){
       clearTripAccepted()
       alert('trip cancelled')
       // popup trip cancelled
@@ -117,22 +131,25 @@ function page() {
       const cookies = cookie.parse(document.cookie);
       let token = null
       token = cookies.Dtoken
-      socket.emit('accept ride', {
-        token: `${token}`,
-        room_id: tripRequest.room_id,
-        rider_id: tripRequest.rider_id,
-        details : tripRequest.details
-      },
-      (trip_id: string)=>{
-        console.log('acceptded')
-        setShowRequest(false)
-        const data = tripRequest
-        data.trip_id = trip_id
-        storeTripAccepted(data)
-        setTripRequest({})
-        //console.log(tripRequest)
-        setIsAccepted(true)
-      })
+      if(showRequest){
+        socket.emit('accept ride', {
+          token: `${token}`,
+          room_id: tripRequest.room_id,
+          rider_id: tripRequest.rider_id,
+          details : tripRequest.details
+        },
+        (trip_id: string)=>{
+          console.log('acceptded')
+          setShowRequest(false)
+          const data = tripRequest
+          data.trip_id = trip_id
+          storeTripAccepted(data)
+          setTripRequest({})
+          //console.log(tripRequest)
+          setIsAccepted(true)
+        })
+      }
+      
       
     }
   }
@@ -144,7 +161,6 @@ function page() {
       console.log('invaild otp')
     },()=>{
       storeOnGoing(tripAccepted)
-      console.log('h')
       clearTripAccepted()
     });
   }
@@ -177,8 +193,7 @@ function page() {
   const storeTripAccepted = (trip: any) => {
     setCookie("tripAccepted", JSON.stringify(trip),0.2);
     setTripAccepted(trip)
-    console.log(tripAccepted
-    )
+    console.log(tripAccepted)
     console.log(trip)
     setIsAccepted(true)
   };
@@ -207,13 +222,18 @@ function page() {
 
   return (
     <>
+    <div className='relative'>
+    <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
+
+    
       {!isAccepted && !isOnGoing && <SearchingRider />}
       {showRequest && <RequestPopUp
         acceptRide={AcceptTrip}
         rejectRide={onReject}
         tripRequest={tripRequest}
       />}
-
+    </div>
+    <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
       {(isAccepted || isOnGoing) && 
       <TripDetails
       isAccepted={isAccepted}
@@ -221,20 +241,24 @@ function page() {
       tripAccepted={tripAccepted}
       onGoing={onGoing}
       submitOtp={StartTrip}
-      onCancel={onCancel}
+      Cancel={onCancel}
     />
       }
-      
-      
-     
+      </div>
+      <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
       {isOnGoing && <EndTrip
       onPayment={()=>onPayment()}
       endTrip={() => onEndTrip()}
       amount={onGoing.details.amount}
       />}
-      
+      </div>
+      <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
       {!isAccepted && !isOnGoing && <Stop />}
-
+      </div>
+        <Map
+      
+        />
+        </div>
     </>
   )
 }
@@ -242,18 +266,6 @@ function page() {
 
 
 
-function Stop() {
-  const router = useRouter()
-
-  const stopTrips = () => {
-    socket.emit('close connection')
-    socket.disconnect()
-    router.replace('/dashboard')
-  }
-  return (
-    <button onClick={() => stopTrips()}>Stop Trips</button>
-  )
-}
 
 
 

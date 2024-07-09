@@ -7,11 +7,11 @@ const Navbar = () => {
     const pathname = usePathname(); 
 
     const navLinks = [
-        { path: '/Driver/dashboard', label: 'Home' },
-        { path: '/Driver/ride', label: 'Ride' },
-        { path: '/Driver/drive', label: 'Drive' },
-        { path: '/Driver/login-options', label: 'Login' },
-        { path: '/Driver/signup-options', label: 'SignUp' },
+        { path: '/Driver/HomePage', label: 'Home' },
+        { path: '/Customer/login', label: 'Ride' },
+        { path: '/Driver/dashboard', label: 'Drive' },
+        { path: '/Driver/login', label: 'Login' },
+        { path: '/Driver/signup', label: 'SignUp' },
     ];
 
     return (

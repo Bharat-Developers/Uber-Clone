@@ -8,8 +8,10 @@ import socket from '@/webSocket/riderSocket';
 import { latLng } from 'leaflet';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import {setCookie,eraseCookie} from '@/app/actions/function'
-import cookie from 'cookie'
+import {setCookie,eraseCookie} from '@/app/functions/Cookies';
+import cookie from 'cookie';
+import RidePortal from './RidePortal';
+
 
 const RidePortalPage: React.FC = () => {
   
@@ -18,11 +20,14 @@ const RidePortalPage: React.FC = () => {
   const pickup = SearchParams.get("pickup")
   const dropoff = SearchParams.get("dropoff")
   const [requestOn,setRequestOn] = useState(false)
-  const [showDriver,setShowDriver] = useState(false)
+  const [isAccepted,setIsAccepted] = useState(false)
   const [started, setStarted] = useState(false)
   const [currentTrip,setCurrentTrip] = useState({})
   // text to show status
   const [statusText,setStatusText] = useState('')
+  const [room,setRoom] = useState(0)
+  const [progress, setProgress] = useState(0) // Add progress state
+
   // socket events
   if(!socket.active){
     socket.connect();
@@ -34,7 +39,8 @@ const RidePortalPage: React.FC = () => {
     const cookies = cookie.parse(document.cookie);
     let data = null
     data = cookies.currentTrip
-    if (data!= undefined) {
+    if (data) {
+      data = JSON.parse(data)
       socket.emit('join room', data.room_id) 
       setCurrentTrip(data)
       setRequestOn(true)// don't send request ride
@@ -53,10 +59,10 @@ const RidePortalPage: React.FC = () => {
   }
 
   if(!requestOn){
-    setStatusText('finding best driver for you')
+    setStatusText('Finding best driver for you')
     setRequestOn(true)
-    const pickupLat = parseFloat('25')
-    const pickupLon = parseFloat('179')
+    const pickupLat = parseFloat('21.176433')
+    const pickupLon = parseFloat('79.060855')
     socket.emit('request ride',
       {
           details: {
@@ -65,28 +71,33 @@ const RidePortalPage: React.FC = () => {
               amount: 100
           },
           coor:{lat:pickupLat,lon:pickupLon}
+      },(room_id: any)=>{
+        setRoom(room_id)
       });
   }
   
   socket.on('drivers latLon',(latLng)=>{
     console.log(latLng)
     // show this latlng as marker with progess bar on page 
+     // Update progress as an example
+     
+     setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 10));
   })
 
   socket.on('driver-detials',(data)=>{
     console.log(data)
     storeCurrentTrip(data)
-    setShowDriver(true)
+    setIsAccepted(true)
     //show trip detials
     // show "driver is on way"
-    setStatusText('driver is on way')
+    setStatusText('Driver is on way')
   })
 
   socket.on('trip started',()=>{
     setStarted(true)
     // remove cancel button
     // show "you are on the way to destination"
-    setStatusText('you are on the way to destination')
+    setStatusText('You are on the way to destination')
   })
   
   socket.on('no driver',()=>{
@@ -95,7 +106,7 @@ const RidePortalPage: React.FC = () => {
     //pop up or show no driver found
     setStatusText('show no driver found')
     setTimeout(()=>{
-      router.replace('./Customer/ride')
+      router.replace('/Customer/ride')
     },2000) 
     
   })
@@ -103,7 +114,8 @@ const RidePortalPage: React.FC = () => {
   socket.on('canceled-driver',()=>{
     setStatusText('trip cancelled by driver')
     setTimeout(()=>{
-      router.replace('./ride')
+      clearCurrentTrip()
+      router.replace('/Customer/ride')
     },5000) 
   })
 
@@ -121,8 +133,9 @@ const RidePortalPage: React.FC = () => {
   })
 
   const onCancel = () => {
-    socket.emit('cancel trip-rider',currentTrip)
-    setStatusText('trip cancelled')
+   
+    socket.emit('cancel trip-rider',currentTrip,room,isAccepted)
+    setStatusText('Trip cancelled by You')
     setTimeout(()=>{
       clearCurrentTrip()
       router.replace('/Customer/ride')
@@ -135,21 +148,26 @@ const RidePortalPage: React.FC = () => {
   // get driver location 
   return(
       <>
-      {!showDriver && <ProgressBar/>}
-      <br/>
-      <br/>
-      {statusText}
-      <br/>
-      <br/>
-      {showDriver && <DriverDetails
+       <Navbar /><div className={styles.containers}>
+        <h1 className={styles.heading}>Getting Driver Info</h1>
+      {!isAccepted && <RidePortal progress={0}/>}
+      <h1 className={styles.title}>{statusText}</h1>
+    
+     
+      {isAccepted && <DriverDetails
       currentTrip={currentTrip}
       />}
       <br/>
-      {pickup}
+      <div className={styles.alignment}>
+      <div className={styles.img}>
+      <h3 className={styles.details}>From: {pickup}</h3>
       <br/>
-      {dropoff}
+     
+      <h3 className={styles.details}>To: {dropoff}</h3></div></div>
       <br/>
-      {!started && <button onClick={()=>onCancel()}>Cancel Trip</button>}
+      <br/>
+      {!started && <button className={styles.button} onClick={()=>onCancel()}>Cancel Trip</button>}
+      </div>
       </>
   );
 }
@@ -165,7 +183,9 @@ const RidePortalPage: React.FC = () => {
 const ProgressBar = () => {
   return(
     <>
-    Progess Bar
+    
+    <h1 className={styles.title}>Generating driver details</h1>
+
     </>
   )
 }
@@ -184,11 +204,14 @@ const DriverDetails:React.FC<RideDetailsProps> = (
 ) =>{
   return(
     <>
+   <br/>
+   <div className={styles.border}>
+   <h3 className={styles.information}>
     Driver Name:{currentTrip.name}<br/>
     Amount: {currentTrip.amount}<br/>
     Vehical Number: {currentTrip.Rc}<br/>
     Mobile no : {currentTrip.number}<br/>
-    OTP : {currentTrip.otp}<br/>
+    OTP : {currentTrip.otp}</h3></div><br/>
     </>
   )
 
@@ -197,4 +220,4 @@ const DriverDetails:React.FC<RideDetailsProps> = (
 export default RidePortalPage;
 
 
-// showDriver state that trip is accepted by driver
+// isAccepted state that trip is accepted by driver

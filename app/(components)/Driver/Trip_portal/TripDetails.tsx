@@ -6,7 +6,7 @@ interface TripDetailsProps{
   tripAccepted: any,
   onGoing: any,
   submitOtp: (otp: number)=> void,
-  onCancel: () => void
+  Cancel: () => void
 }
 const TripDetails :React.FC <TripDetailsProps> = ({
     isAccepted,
@@ -14,7 +14,7 @@ const TripDetails :React.FC <TripDetailsProps> = ({
     tripAccepted,
     onGoing,
     submitOtp,
-    onCancel
+    Cancel
 }
    
 ) => {
@@ -44,7 +44,7 @@ const TripDetails :React.FC <TripDetailsProps> = ({
       <button onClick={()=>submitOtp(otp)} disabled={otp/1000<1 && otp/9999>1} >Submit OTP</button>
       {/* error msg invalid otp */}
       <br/>
-      <button onClick={()=>onCancel}>Cancel</button>
+      <button onClick={()=>Cancel()}>Cancel</button>
       </div>
       }  
     </div>

@@ -2,18 +2,21 @@
 import React from 'react';
 import Layout from './Navbar/Layout';
 import TestMap from '../map/TestMap';
-import { useRouter } from 'next/navigation';
-import { setCookie } from '@/app/functions/Cookies';
+import Profile from './(Components)/(Profile)/Profile';
+import PrevRides from './(Components)/(PrevRide)/PrevRides';
+import Graph from './(Components)/(Graph)/Graph';
 
 const Home: React.FC = () => {
 
-  const router = useRouter()
   return (
     <>
-      <button onClick={() => {
-        setCookie("GO",true,1)
-        router.push('./Trip_portal')
-      }}>Go</button>
+      <div className='flex flex-col'>
+        <Profile />
+        <div className='flex gap-2 w-full items-center'>
+          <PrevRides />
+          <Graph />
+        </div>
+      </div>
     </>
   );
 };

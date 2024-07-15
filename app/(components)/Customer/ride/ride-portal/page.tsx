@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Navbar from '../navbar/Navbar';
-import Map from '../Map';
+import Map from './Map';
 import styles from './page.module.css';
 import socket from '@/webSocket/riderSocket';
 import { latLng } from 'leaflet';
@@ -13,12 +13,17 @@ import cookie from 'cookie';
 import RidePortal from './RidePortal';
 
 
+
+
 const RidePortalPage: React.FC = () => {
   
   const SearchParams = useSearchParams() 
   const router = useRouter()
   const pickup = SearchParams.get("pickup")
   const dropoff = SearchParams.get("dropoff")
+  const pickupCoor = SearchParams.get("pickupcoor")
+  const dropoffCoor = SearchParams.get("dropoffcoor")
+  const amount = SearchParams.get("amount")
   const [requestOn,setRequestOn] = useState(false)
   const [isAccepted,setIsAccepted] = useState(false)
   const [started, setStarted] = useState(false)
@@ -61,16 +66,17 @@ const RidePortalPage: React.FC = () => {
   if(!requestOn){
     setStatusText('Finding best driver for you')
     setRequestOn(true)
-    const pickupLat = parseFloat('21.176433')
-    const pickupLon = parseFloat('79.060855')
+    const pickupLatlng = JSON.parse(pickupCoor!)
     socket.emit('request ride',
       {
           details: {
-              pickup: pickup,
-              dropoff: dropoff,
-              amount: 100
+              pickup,
+              dropoff,
+              amount,
+              pickupCoor: JSON.parse(pickupCoor!),
+              dropoffCoor: JSON.parse(dropoffCoor!),
           },
-          coor:{lat:pickupLat,lon:pickupLon}
+          coor:{lat:pickupLatlng.latitude,lon:pickupLatlng.longitude}
       },(room_id: any)=>{
         setRoom(room_id)
       });
@@ -95,6 +101,7 @@ const RidePortalPage: React.FC = () => {
 
   socket.on('trip started',()=>{
     setStarted(true)
+    setIsAccepted(false)
     // remove cancel button
     // show "you are on the way to destination"
     setStatusText('You are on the way to destination')
@@ -168,6 +175,11 @@ const RidePortalPage: React.FC = () => {
       <br/>
       {!started && <button className={styles.button} onClick={()=>onCancel()}>Cancel Trip</button>}
       </div>
+      <Map
+        currentTrip={currentTrip}
+        isAccepted={isAccepted}
+        started={started}  
+        />
       </>
   );
 }
@@ -193,11 +205,11 @@ const ProgressBar = () => {
 
 
 
-interface RideDetailsProps{
+interface DriverDetailsProps{
   currentTrip: Object
 }
 
-const DriverDetails:React.FC<RideDetailsProps> = (
+const DriverDetails:React.FC<DriverDetailsProps> = (
   {
     currentTrip
   }

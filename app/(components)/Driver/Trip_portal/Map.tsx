@@ -3,8 +3,8 @@
 import React, { useEffect, useState, ChangeEvent, useRef } from 'react';
 import "leaflet/dist/leaflet.css";
 import { Location } from '@/types/Location';
-import { initializeMap, requestLocationAccess, geoSuccess, geoError, RouteHandle, MarkMarkers } from '@/app/utilities/MapUtils';
-import L, { icon, Marker } from 'leaflet';
+import { initializeMap, requestLocationAccess, geoSuccess, geoError, MarkMarkers,mapRef,routingControlRef ,RouteHandle} from '@/app/utilities/MapUtils';
+import L, { icon, LatLng, Marker } from 'leaflet';
 import { getS2Id } from '@/app/functions/getCell_Ids';
 import { UpdateDriverLocation } from '@/app/utilities/DriverUpdate';
 import cookie from 'cookie'
@@ -12,7 +12,10 @@ import mongoose from 'mongoose';
 import MarkerIcon from 'leaflet/dist/images/marker-icon.png';
 import MarkerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import MarkerShadow from 'leaflet/dist/images/marker-shadow.png';
-import socket from '@/webSocket/driverSocket';
+import socket from '@/webSocket/riderSocket';
+//import socket from '@/webSocket/driverSocket';
+
+
 interface Suggestion {
     properties: {
         formatted: string;
@@ -22,15 +25,20 @@ interface Suggestion {
 interface MapProps{
     isAccepted: boolean
     isOnGoing: boolean
+    onGoing: Object
+    tripAccepted: Object
 }
 
-const Map =  () => {
-    const intervalRef = useRef(null);
+const Map:React.FC<MapProps> =  ({
+    isAccepted,
+    isOnGoing,
+    tripAccepted,
+    onGoing
+}) => {
+    
     const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-    const [IsCurrent, setIsCurrent] = useState<boolean>(false);
-    const [sourceCoords, setSourceCoords] = useState<L.LatLng>();
-    const [destCords, setdestCords] = useState<L.LatLng>();
     const [GO, setGO] = useState<boolean | null>(false);
+    const [timeout,setTime]= useState(0);
     const cookies = cookie.parse(document.cookie);
     
     L.Icon.Default.mergeOptions({
@@ -77,22 +85,40 @@ const Map =  () => {
         }
     }, [location, GO]);
 
-   
 
+    useEffect(()=>{
+        setTimeout(()=>{
+            if(isAccepted){
+                socket.emit('driver-location',{room_id: tripAccepted.room_id,location:location})
+            }
+            if(isOnGoing){
+                socket.emit('driver-location',{room_id: onGoing.room_id,location:location})
+            }
+            setTime(timeout+1);
+        },3000)
+    })
 
-
-    //TODO - Implement websocket server response here
-
-    const handleReqFromUser = async () => {
-        // Get response from the server to show if any user has sent req to this id
-        // the response will include Name, latlngs, time, 
-        // Destructure them and then pass it to various RouteHandle to get the peoper route from driver current loc to the user loc
+   useEffect(()=>{
+    
+    if(mapRef!=null &&  isOnGoing ){
+        routingControlRef?.remove();
+        RouteHandle(new L.LatLng(location.latitude,location.longitude),new L.LatLng(onGoing.details.dropoffCoor.latitude,onGoing.details.dropoffCoor.longitude),mapRef!)
     }
+    if(!isOnGoing && isAccepted && mapRef!=null ){
+        routingControlRef?.remove();
+        RouteHandle(new L.LatLng(location.latitude,location.longitude),new L.LatLng(tripAccepted.details.pickupCoor.latitude,tripAccepted.details.pickupCoor.longitude),mapRef!)
+    }
+
+   },[isAccepted,isOnGoing])
+
+
+
+   
 
     const handleBeforeUnload = async (event: BeforeUnloadEvent) => {
         if (GO) {
             const id = await getS2Id({ latitude: location.latitude, longitude: location.longitude })
-            await UpdateDriverLocation(id?.toString() || "", id?.toString() || "", false);
+            await UpdateDriverLocation(id?.toString() || "", id?.toString() || "",location.latitude,location.longitude, false);
         }
         // alert('refresh')
     }

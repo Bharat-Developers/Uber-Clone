@@ -6,7 +6,7 @@ export const getCell_Ids: React.FC<Location> = ({ latitude, longitude }) => {
   try {
     const regions: String[] = [];
     //get key of current cell(location)
-    var key = S2.latLngToKey(latitude, longitude, 14);
+    var key = S2.latLngToKey(latitude, longitude, 12);
     //push current cell id in array
     regions.push(S2.keyToId(key).toString());
 
@@ -25,7 +25,7 @@ export const getCell_Ids: React.FC<Location> = ({ latitude, longitude }) => {
 
 export const getS2Id: React.FC<Location> = async ({ latitude, longitude }) => {
   try {
-    const send = await S2.keyToId(S2.latLngToKey(latitude, longitude, 14)).toString();
+    const send = await S2.keyToId(S2.latLngToKey(latitude, longitude, 12)).toString();
     return send;
   } catch (error) {
     console.log(error);

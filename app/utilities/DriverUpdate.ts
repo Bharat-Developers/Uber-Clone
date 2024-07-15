@@ -1,9 +1,12 @@
 import cookie from 'cookie'
 const nottheone = '1152921508901814272'
 
+
 export const UpdateDriverLocation = async (
   current_cell_id: string,
   prev_cell_id: string,
+  latitude: number,
+  longitude: number,
   GO: boolean
 ) => {
   // Check if either current_cell_id or prev_cell_id is equal to nottheone
@@ -43,7 +46,30 @@ export const UpdateDriverLocation = async (
         }
       }
 
+      // update drive lat lng in db
+      const response2 = await fetch("localhost:5001/api/driver/latLon", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": cookies.Dtoken
+        },
+        body: JSON.stringify({
+          latitude: latitude,
+          longitude: longitude,
+        }),
+      });
+
+      if (!response2.ok) {
+        const errorText = await response2.text();
+        throw new Error(
+          `Failed to update driver in cell ${prev_cell_id}: ${errorText}`
+        );
+      }else{
+        console.log("Driver latLng updated successfully");
+      }
+
       console.log("Driver location updated successfully");
+
     } catch (error) {
       console.error("Error in UpdateDriverLocation function:", error);
       throw error;
@@ -68,11 +94,16 @@ export const UpdateDriverLocation = async (
         throw new Error(
           `Failed to ${action} driver in cell ${prev_cell_id}: ${errorText}`
         );
-      }else
-      console.log("Driver location updated successfully");
+      }else{
+        console.log("Driver location updated successfully");
+      }
+
     } catch (error) {
       console.error("Error in UpdateDriverLocation function:", error);
       throw error;
     }
   }
 };
+
+
+

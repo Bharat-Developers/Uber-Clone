@@ -1,3 +1,4 @@
+'use client'
 import L, { LatLng, LatLngExpression, Marker, Circle, latLng } from "leaflet";
 import "leaflet-routing-machine";
 import { getS2Id } from "../functions/getCell_Ids";
@@ -68,7 +69,7 @@ export const geoSuccess = async (
 
   const line = L.polyline(Tracker, { color: "blue" });
   // console.log("Adding polyline:", line); // Debugging line
-  line.addTo(mapRef!);
+  //line.addTo(mapRef!);
   // the above comment out code is tracking and storing the current position  , which is display on map by blue line
     const id = await getS2Id({ latitude: latitude, longitude: longitude });
     PrevS2Id = id?.toString() || "";
@@ -94,6 +95,8 @@ export const geoSuccess = async (
       await UpdateDriverLocation(
         id?.toString() || "",
         PrevS2Id.toString(),
+        latitude,
+        longitude,
         GO
       );
       //set the current s2cellId to prev
@@ -136,7 +139,7 @@ export const MarkMarkers = async () => {
 
 };
 
-export const RouteHandle = async (currentLoc: LatLng, destination: LatLng) => {
+export const RouteHandle = async (currentLoc: LatLng, destination: LatLng,mapRef: L.Map) => {
   if (currentLoc !== destination) {
     const next = L.Routing.control({
       waypoints: [currentLoc, destination],
@@ -148,14 +151,28 @@ export const RouteHandle = async (currentLoc: LatLng, destination: LatLng) => {
 
     routingControlRef.on("routesfound", (e) => {
       const routes = e.routes;
-      const totalDistance = routes[0].summary.totalDistance;
-      const totalDistanceKm = totalDistance / 1000;
-      if (totalDistanceKm < 0.5) {
-       // alert("You have reached");
-      }
     });
   }
 };
+
+
+// Reverse geocoding function
+export const reverseGeocode = async (lat:any, lon:any) => {
+  try {
+      const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`
+      );
+      const data = await response.json();
+      const locationName = data.display_name;
+      return locationName
+     
+  } catch (error) {
+
+      console.error(`Error in reverse geocoding`, error);
+      return null
+  }
+};
+
 
 export const getPrice = async (distance : number) => {
   let price = distance * 16;

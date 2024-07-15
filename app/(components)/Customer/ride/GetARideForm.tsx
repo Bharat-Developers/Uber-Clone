@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation';
 import Modal from 'react-modal';
 import styles from './GetARideForm.module.css';
 import Link from 'next/link';
+import { Location } from '@/types/Location';
+import { reverseGeocode } from '@/app/utilities/MapUtils';
+import axios from 'axios';
 
 interface Suggestion {
   properties: {
@@ -14,22 +17,32 @@ interface Suggestion {
 interface GetFormProps {
   location1: string
   location2: string
+  coor1: Location
+  coor2: Location
+  setShowPrice: () => void
   setLocation1: (location1: string) => void
   setLocation2: (location2: string) => void
+  Setcoor1: (coor: Location) => void
+  Setcoor2: (coor: Location) => void
 }
 
 const GetARideForm: React.FC<GetFormProps> = ({
   location1,
   location2,
+  setShowPrice,
   setLocation1,
-  setLocation2
+  setLocation2,
+  Setcoor1,
+  Setcoor2,
+  coor1,
+  coor2,
 }
 ) => {
   const router = useRouter();
-  
+
   const [suggestions1, setSuggestions1] = useState<Suggestion[]>([]);
   const [suggestions2, setSuggestions2] = useState<Suggestion[]>([]);
-
+  const [errors, setErrors] = useState({ location1: '', location2: '' });
   useEffect(() => {
     if (typeof document !== 'undefined' && document.querySelector('#__next')) {
       Modal.setAppElement('#__next');
@@ -82,11 +95,44 @@ const GetARideForm: React.FC<GetFormProps> = ({
     setSuggestions2([]);
   };
 
-  const handleConfirm = () => {
-    // Navigate to find-driver page
+  const validate = () => {
+    let valid = true;
+    const newErrors = { location1: '', location2: '' };
 
-    router.push('./ride/ride-portal');
+    if (!location1) {
+      newErrors.location1 = 'Pickup location is required';
+      valid = false;
+    }
+    if (!location2) {
+      newErrors.location2 = 'Dropoff location is required';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
   };
+
+  const handleSeePrice = async () =>{
+    if(validate()){
+      // service is only offered in india so lat long will never be  0 
+      if(coor1.latitude==0 || coor1.longitude==0 ){
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${location1}&limit=1`);
+        const latitude = parseFloat(response.data[0].lat);
+        const longitude = parseFloat(response.data[0].lon);
+        Setcoor1({latitude: latitude,longitude: longitude})
+      }
+      
+      if(coor2.latitude==0 || coor2.longitude==0 ){
+        const response = await axios.get(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${location2}&limit=1`);
+        const latitude = parseFloat(response.data[0].lat);
+        const longitude = parseFloat(response.data[0].lon);
+        Setcoor2({latitude: latitude,longitude: longitude})
+      }
+      setShowPrice()
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -100,6 +146,7 @@ const GetARideForm: React.FC<GetFormProps> = ({
             value={location1}
             onChange={(e) => setLocation1(e.target.value)}
             placeholder="Pickup location"
+            id='pickup'
           />
           {suggestions1.length > 0 && (
             <ul className="bg-white border border-gray-300 mt-2 rounded w-96">
@@ -114,6 +161,7 @@ const GetARideForm: React.FC<GetFormProps> = ({
               ))}
             </ul>
           )}
+          {errors.location1 && <p className={styles.error}>{errors.location1}</p>}
         </div>
         <div className={styles.inputGroup}>
           <label className={styles.label}></label>
@@ -123,6 +171,7 @@ const GetARideForm: React.FC<GetFormProps> = ({
             value={location2}
             onChange={(e) => setLocation2(e.target.value)}
             placeholder="Dropoff location"
+            id='dropoff'
           />
           {suggestions2.length > 0 && (
             <ul className="bg-white border border-gray-300 mt-2 rounded w-[22rem]">
@@ -137,6 +186,7 @@ const GetARideForm: React.FC<GetFormProps> = ({
               ))}
             </ul>
           )}
+           {errors.location2 && <p className={styles.error}>{errors.location2}</p>}
         </div>
         <div className={styles.inputGroup}>
           <label className={styles.label}></label>
@@ -145,14 +195,7 @@ const GetARideForm: React.FC<GetFormProps> = ({
             <option>Schedule for later</option>
           </select>
         </div>
-        <div className={styles.inputGroup}>
-          <label className={styles.label}></label>
-          <select className={styles.select}>
-            <option>Car Max</option>
-            <option>Car Mini</option>
-            <option>Auto</option>
-          </select>
-        </div>
+       
         <div className={styles.inputGroup}>
           <label className={styles.label}></label>
           <select className={styles.select}>
@@ -161,25 +204,11 @@ const GetARideForm: React.FC<GetFormProps> = ({
           </select>
         </div>
 
-        <Link href={{
-          pathname: '/Customer/ride/ride-portal',
-          query: {
-            pickup: location1,
-            dropoff: location2
-          }
-        }}
-          className={`${styles.button} ${styles.confirmButton}`}
-        >
-          Confirm
-        </Link>
-
-        {/* <button 
-          type="button" 
-          className={`${styles.button} ${styles.confirmButton}`} 
-          onClick={handleConfirm}
-        >
-          
-        </button> */}
+        <div>
+          or select on map (pls select pickup first)
+        </div>
+       
+        <button type='button' className={`${styles.button} ${styles.confirmButton}`} onClick={()=>handleSeePrice()}>See Price</button>
       </form>
     </div>
   );

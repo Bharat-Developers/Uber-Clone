@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import Aadhar from '../Aadhar/Aadhar';
 import { useRouter } from 'next/navigation';
-
+import cookie from 'cookie'
 
 export default function Rc() {
   const [licensePlate, setLicensePlate] = useState('');
@@ -14,28 +14,22 @@ export default function Rc() {
     setLicensePlate(e.target.value);
   };
 
-
-  const cookieString = document.cookie;
-  const cookieArray = cookieString.split('; ');
-  const cookieObject: Record<string, string> = {};
-
-  cookieArray.forEach(cookie => {
-    const [key, value] = cookie.split('=');
-    cookieObject[key] = value;
-  });
+  const cookies = cookie.parse(document.cookie);
+  
 
 
 
-  const email = cookieObject.email
-  const number = cookieObject.number
-  const name = cookieObject.name
-  const dob = cookieObject.dob
-  const termsAccepted = cookieObject.termsAccepted
-  const location = cookieObject.location
-  const cabType = cookieObject.Ride
-  const language = cookieObject.language
-  const password = cookieObject.password
-  const aadhar = cookieObject.aadhar
+
+  const email = cookies.email
+  const number = cookies.number
+  const name = cookies.name
+  const dob = cookies.dob
+  const termsAccepted = cookies.termsAccepted
+  const location = cookies.location
+  const cabType = cookies.Ride
+  const language = cookies.language
+  const password = cookies.password
+  const aadhar = cookies.aadhar
 
 
   const handleContinue = async () => {
@@ -50,7 +44,7 @@ export default function Rc() {
       console.log('License plate number is valid:', licensePlate);
 
       const data = {
-        email, password, name, number, location, language, aadhar, dob, termsAccepted, cabType, RCNo: licensePlate, vehicleModel: "Kia"
+        email: email, password: password, name: name, number: number, location: location, language: language, aadhar: aadhar, dob: dob, termsAccepted:termsAccepted, cabType:cabType, RCNo: licensePlate, vehicleModel: "Kia"
       }
       console.log('data sent to driver: ', data);
       try {

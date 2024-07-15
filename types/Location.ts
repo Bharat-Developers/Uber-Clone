@@ -1,5 +1,5 @@
 
 export type Location = {
-    latitude: Number;
-    longitude: Number;
+    latitude: number;
+    longitude: number;
   };

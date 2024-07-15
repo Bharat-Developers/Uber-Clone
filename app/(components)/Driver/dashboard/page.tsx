@@ -4,6 +4,11 @@ import cookie from 'cookie'
 import { useRouter } from 'next/navigation';
 import { setCookie } from '@/app/functions/Cookies';
 import { getS2Id } from '@/app/functions/getCell_Ids';
+import Layout from './Navbar/Layout';
+import TestMap from '../map/TestMap';
+import Profile from './(Components)/(Profile)/Profile';
+import PrevRides from './(Components)/(PrevRide)/PrevRides';
+import Graph from './(Components)/(Graph)/Graph';
 
 const Home: React.FC = () => {
   const setLocation = () =>{
@@ -98,6 +103,13 @@ const Home: React.FC = () => {
   const router = useRouter()
   return (
     <>
+      <div className='flex flex-col'>
+        <Profile />
+        <div className='flex gap-2 w-full items-center'>
+          <PrevRides />
+          <Graph />
+        </div>
+      </div>
       <button onClick={async () => {
         setCookie("GO",true,1)
         await setLocation()

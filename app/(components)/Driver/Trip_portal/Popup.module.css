@@ -12,6 +12,7 @@
 }
 
 .popupContent {
+  font-size: 17px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -20,6 +21,7 @@
   max-width: 90%;
   text-align: center;
   position: relative;
+  border: 2px solid black; /* Added border */
 }
 
 .closeButton {
@@ -41,14 +43,14 @@
 
 .acceptButton, .rejectButton {
   font-size: 16px;
-  padding: 10px 20px;
+  padding: 15px 40px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
 .acceptButton {
-  background-color: #28a745;
+  background-color: #000000;
   color: white;
 }
 
@@ -57,10 +59,17 @@
 }
 
 .rejectButton {
-  background-color: #dc3545;
+  background-color: #000000;
   color: white;
 }
 
 .rejectButton:hover {
   background-color: #c82333;
+}
+
+.logo{
+ margin: 0 auto;
+}
+.newRide{
+  font-size: 25px;
 }

@@ -17,10 +17,6 @@ const Home: React.FC = () => {
           <Graph />
         </div>
       </div>
-      <button onClick={ () => {
-        
-        
-      }}>Go</button>
     </>
   );
 };

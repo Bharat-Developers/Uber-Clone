@@ -125,7 +125,7 @@ const Map:React.FC<MapProps> =  ({
 
     return (
         <div className="p-4">
-            <div id="map" className=" h-[655px] rounded-lg shadow-lg w-[100%]"></div>
+            <div id="map" className=" h-[400px] rounded-lg shadow-lg w-[100%]"></div>
         </div>
     );
 };

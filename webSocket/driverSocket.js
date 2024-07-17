@@ -12,7 +12,7 @@ if (parts.length === 2) {
     token = parts.pop().split(';').shift();
 }
 
-const socket = io('http://localhost:5002/', {
+const socket = io(`${process.env.NEXT_PUBLIC_LINK}:5002/`, {
     autoConnect: false, auth: {
         token: token,
         role: 'driver'

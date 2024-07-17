@@ -5,8 +5,6 @@ import Map from './Map';
 // import MapWithRouting from '../MapWithRouting'
 import styles from './page.module.css';
 import Navbar from './navbar/Navbar';
-import DriverPortal from './ride-portal/RidePortal';
-import L from 'leaflet'
 import { Location } from '@/types/Location';
 import Link from 'next/link';
 import Rideoffer from './Rideoffer';

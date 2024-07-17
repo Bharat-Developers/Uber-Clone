@@ -3,6 +3,7 @@ import cookie from 'cookie'
 import socket from "@/webSocket/driverSocket";
 import { eraseCookie } from "@/app/functions/Cookies";
 import { getS2Id } from "@/app/functions/getCell_Ids";
+import styles from './Stop.module.css'; // Import CSS module
 function Stop() {
     const router = useRouter()
   
@@ -18,7 +19,7 @@ function Stop() {
           if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(async (position)=>{
               const id = await getS2Id({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-              const response = await fetch('http://localhost:5001/api/availableDriver/', {
+              const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/availableDriver/`, {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ function Stop() {
                 })
               });
               const responseData = await response.json();
-        
+              console.log('res 1')
               if (response.status == 401) {
                 console.log('no valid token')
                 console.log(responseData)
@@ -39,39 +40,25 @@ function Stop() {
                 console.log(responseData);
                 ;
               }
-              const response2 = await fetch('http://localhost:5001/api/driver/latLon', {
+             
+              const response3 = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/driver/`, {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `${token}`
                 },
                 body: JSON.stringify({
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                })
+                  driver:{
+                  availablity: false,
+                  latLon:[
+                     position.coords.latitude,
+                     position.coords.longitude,
+                  ]
+                }
+              })
               });
-              const responseData2 = await response2;
-              if (response2.status == 401) {
-                console.log('no valid token')
-                console.log(responseData2)
-                return
-              }
-              if (!response2.ok) {
-                console.log(responseData2);
-                return
-              }
-              const response3 = await fetch('http://localhost:5001/api/driver/avail', {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `${token}`
-                },
-                body: JSON.stringify({
-                  availablity: false
-                })
-              });
-              const responseData3 = await response3;
-              if (response2.status == 401) {
+              const responseData3 = await response3.json();
+              if (response3.status == 401) {
                 console.log('no valid token')
                 console.log(responseData3)
                 return
@@ -97,7 +84,7 @@ function Stop() {
       
     }
     return (
-      <button onClick={() => stopTrips()}>Stop Trips</button>
+      <button className={styles.stopButton} onClick={() => stopTrips()}>Stop Trips</button>
     )
   }
 

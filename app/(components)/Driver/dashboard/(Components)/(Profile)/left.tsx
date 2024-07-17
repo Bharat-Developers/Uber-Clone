@@ -34,7 +34,7 @@ const Left = () => {
        if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(async (position) => {
            const id = await getS2Id({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-           const response = await fetch('http://localhost:5001/api/availableDriver/', {
+           const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/availableDriver/`, {
              method: 'PUT',
              headers: {
                'Content-Type': 'application/json',
@@ -57,50 +57,37 @@ const Left = () => {
              return
            }
 
-           const response2 = await fetch('http://localhost:5001/api/driver/latLon', {
-             method: 'PUT',
-             headers: {
-               'Content-Type': 'application/json',
-               'Authorization': `${token}`
-             },
-             body: JSON.stringify({
-               latitude: position.coords.latitude,
-               longitude: position.coords.longitude,
-             })
-           });
-           const responseData2 = await response2;
-           if (response2.status == 401) {
-             console.log('no valid token')
-             console.log(responseData2)
-             return
-           }
-           if (!response2.ok) {
-             console.log(responseData2);
-             return
-           }
-           const response3 = await fetch('http://localhost:5001/api/driver/avail', {
-             method: 'PUT',
-             headers: {
-               'Content-Type': 'application/json',
-               'Authorization': `${token}`
-             },
-             body: JSON.stringify({
-               availablity: true
-             })
-           });
-           const responseData3 = await response3;
-           if (response2.status == 401) {
-             console.log('no valid token')
-             console.log(responseData3)
-             return
-           }
-           if (!response3.ok) {
-             console.log(responseData3);
-             return
-           }
-           if(response3.ok){
-             router.push('./Trip_portal')
-           }
+                 
+           const response3 = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/driver/`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `${token}`
+            },
+            body: JSON.stringify({
+              driver:{
+              availablity: true,
+              latLon:[
+                 position.coords.latitude,
+                 position.coords.longitude,
+              ]
+            }
+          })
+          });
+          const responseData3 = await response3.json();
+          if (response3.status == 401) {
+            console.log('no valid token')
+            console.log(responseData3)
+            return
+          }
+          if (!response3.ok) {
+            console.log(responseData3);
+            return
+          }
+          if(response3.ok){
+            setCookie('GO',true,1);
+            router.replace('./Trip_portal')
+          }
          },(err)=>{
            console.log(err)
          })

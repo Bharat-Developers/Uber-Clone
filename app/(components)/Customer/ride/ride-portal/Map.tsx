@@ -104,7 +104,7 @@ started,
 
     return (
         <div className="">
-            <div id="map" className="h-[655px] rounded-lg shadow-lg w-[900px]"></div>
+            <div id="map" className="h-[655px] rounded-lg shadow-lg w-[600px]"></div>
         </div>
     );
 };

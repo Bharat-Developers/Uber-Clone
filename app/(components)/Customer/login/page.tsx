@@ -39,7 +39,7 @@ const Login: React.FC = () => {
                     password,
                     emailOrNum
                 }
-                const response = await fetch('http://localhost:5001/api/rider/login', {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/rider/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

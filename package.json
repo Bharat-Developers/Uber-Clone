@@ -15,7 +15,6 @@
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "cookie": "^0.6.0",
-    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "framer-motion": "^11.2.6",
     "leaflet": "^1.9.4",

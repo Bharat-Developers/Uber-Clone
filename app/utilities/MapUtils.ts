@@ -12,7 +12,6 @@ export const CircleRef: Circle[] = [];
 export let routingControlRef: L.Routing.Control | null = null;
 export let PrevS2Id: String = "";
 export let currentPos: LatLngExpression | undefined = undefined;
-
 const Home = latLng(21.1498, 79.0806);
 
 export const initializeMap = (

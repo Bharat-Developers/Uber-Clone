@@ -4,14 +4,15 @@ import Contact from './Contact'
 import Popup from './Popup'
 import Navbar from '../dashboard/Navbar/Navbar'
 import Stop from './Stop'
+
 import TripDetails from './TripDetails'
 import socket from '@/webSocket/driverSocket'
 import { useRouter } from 'next/navigation'
 import { setCookie, eraseCookie } from '@/app/functions/Cookies'
 import cookie from 'cookie'
 import Map from './Map'
-import { getS2Id } from '@/app/functions/getCell_Ids'
-import { error } from 'console'
+import PopUp from './Popup'
+import { routingControlRef } from '@/app/utilities/MapUtils'
 function page() {
 
   if (!socket.active) {
@@ -51,7 +52,7 @@ function page() {
   const [isAccepted, setIsAccepted] = useState(false)
   const [isOnGoing, setIsOnGoing] = useState(false)
   const [showRequest, setShowRequest] = useState(false)
-  
+
 
   //socket events
   socket.on('ride request', (data) => {
@@ -134,6 +135,7 @@ function page() {
   }
 
   const onCancel = () => {
+    routingControlRef?.remove();
     socket.emit('cancel trip-driver', tripAccepted)
     clearTripAccepted()
     console.log('trip cancelled')
@@ -146,6 +148,7 @@ function page() {
   }
 
   const onPayment = () => {
+    routingControlRef?.remove()
     socket.emit('close trip', onGoing)
     setIsOnGoing(false)
     cleareOnGoing()
@@ -184,17 +187,20 @@ function page() {
   return (
     <>
       <div className='relative'>
-        <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
-
-
+        <Map
+          isAccepted={isAccepted}
+          isOnGoing={isOnGoing}
+          tripAccepted={tripAccepted}
+          onGoing={onGoing}
+        />
           {!isAccepted && !isOnGoing && <SearchingRider />}
-          {showRequest && <RequestPopUp
+          
+          {showRequest && <PopUp
             acceptRide={AcceptTrip}
             rejectRide={onReject}
             tripRequest={tripRequest}
           />}
-        </div>
-        <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
+        
           {(isAccepted || isOnGoing) &&
             <TripDetails
               isAccepted={isAccepted}
@@ -205,23 +211,15 @@ function page() {
               Cancel={onCancel}
             />
           }
-        </div>
-        <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
-          {isOnGoing && <EndTrip
+
+         {isOnGoing && <EndTrip
             onPayment={() => onPayment()}
             endTrip={() => onEndTrip()}
             amount={onGoing.details.amount}
           />}
-        </div>
-        <div className="flex flex-row space-y-4 mt-[40px] ml-[10px] w-[300px] p-6 bg-white rounded-lg shadow-md">
-          {!isAccepted && !isOnGoing && <Stop />}
-        </div>
-        <Map
-        isAccepted={isAccepted}
-        isOnGoing={isOnGoing}
-        tripAccepted={tripAccepted}
-        onGoing={onGoing}
-        />
+      
+         {!isAccepted && !isOnGoing && <Stop />}
+
       </div>
     </>
   )
@@ -258,10 +256,12 @@ const EndTrip: React.FC<EndTripProps> = ({
   return (
     <>
       {!showPayment && <button onClick={() => {
-        endTrip()
+        {/* can add end trip otp for security */}
+         endTrip()
         setShowPayment(true)
       }
       }
+      className={"py-2 px-5 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-grey-700 focus:outline-none focus:ring focus:ring-grey-400 focus:ring-opacity-75"}
       >End Trip</button>
       }
 
@@ -276,50 +276,73 @@ const EndTrip: React.FC<EndTripProps> = ({
   )
 }
 
+
 function SearchingRider() {
   return (
-    <>
-      <br />
-      searching for rider
-      <br />
-    </>
-  )
+    <div className="loading-container">
+      <div className="loading-text">Searching for Rider</div>
+      <div className="loading-dots">
+        <span className="loading-dot">.</span>
+        <span className="loading-dot">.</span>
+        <span className="loading-dot">.</span>
+        <span className="loading-dot">.</span>
+      </div>
+      <style jsx>{`
+        @keyframes loadingDots {
+          0% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+          100% {
+            opacity: 1;
+          }
+        }
+
+        .loading-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          height: 50vh;
+          background-color: rgba(255, 255, 255, 0.9);
+          font-size: 32px;
+          font-weight: bold;
+          text-align: center;
+        }
+
+        .loading-dots {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+        }
+
+        .loading-dot {
+          margin: 0 5px;
+          animation: loadingDots 1s infinite;
+        }
+
+        .loading-dot:nth-child(1) {
+          animation-delay: 0s;
+        }
+        .loading-dot:nth-child(2) {
+          animation-delay: 0.2s;
+        }
+        .loading-dot:nth-child(3) {
+          animation-delay: 0.4s;
+        }
+        .loading-dot:nth-child(4) {
+          animation-delay: 0.6s;
+        }
+      `}</style>
+    </div>
+  );
 }
 
 
-
-//POPup
-
-interface PopupProps {
-  acceptRide: () => void,
-  rejectRide: () => void,
-  tripRequest: Object
-}
-const RequestPopUp: React.FC<PopupProps> = ({
-  acceptRide,
-  rejectRide,
-  tripRequest,
-}) => {
-
-  return (
-    <>
-
-      <br />
-      name: {tripRequest.details.name}
-      <br />
-      pickup: {tripRequest.details.pickup}
-      <br />
-      dropoff:{tripRequest.details.dropoff}
-      <br />
-      amount: {tripRequest.details.amount}
-      <br />
-      <button onClick={() => acceptRide()}>Accept</button>
-      <br />
-      <button onClick={() => rejectRide()}>Reject</button>
-      <br />
-    </>
-  )
-}
 
 
 export default page

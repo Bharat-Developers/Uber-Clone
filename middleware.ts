@@ -41,7 +41,7 @@ export async function middleware(request: NextRequest) {
     if (token) {
         try {
 
-            const response = await fetch(`http://localhost:5001/api/${driverOrCustomer ? 'rider' : 'driver'}/auth`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/${driverOrCustomer ? 'rider' : 'driver'}/auth`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

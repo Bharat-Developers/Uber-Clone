@@ -1,0 +1,209 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    padding: 2rem;
+    animation: fadeIn 1s ease;
+}
+
+.formBackground {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    width: 100%;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    animation: slideUp 1s ease;
+    box-shadow: 7px 0px 15px #5e605e, -7px 0px 15px #fbfbfb;
+}
+
+.formBackground:hover {
+    box-shadow: 7px 0px 15px rgb(150, 147, 147)f896, -7px 0px 15px #898a87;
+    transform: translateY(-5px);
+}
+
+.title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: normal;
+    animation: slideInFromLeft 1s ease;
+}
+
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 40px;
+    animation: slideInFromRight 1s ease;
+}
+
+.continueButton {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: popIn 1s ease;
+}
+
+.continueButton:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+.orContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    width: 100%;
+    animation: fadeIn 1s ease;
+}
+
+.hr {
+    flex: 1;
+    height: 1px;
+    background-color: #ddd;
+    border: none;
+}
+
+.orText {
+    margin: 0 1rem;
+}
+
+.googleButton,
+
+.findAccountButton,
+.qrButton {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 40px;
+    transition: transform 0.3s ease;
+    animation: popIn 1s ease;
+}
+.appleButton{
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    background-color: #0f0f0f;
+    color: #fdfdfd;
+    border: 1px solid #0a0a0a;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    height: 40px;
+    transition: transform 0.3s ease;
+    animation: popIn 1s ease;
+}
+.googleButton:hover,
+.appleButton:hover,
+.findAccountButton:hover,
+.qrButton:hover {
+    transform: scale(1.05);
+}
+
+.icon {
+    width: 25px;
+    margin-right: 0.5rem;
+    height: 22px;
+    animation: rotateIn 1s ease;
+    background: none;
+    border: none;
+    display: inline-block;
+}
+
+.footerText {
+    font-size: 0.8rem;
+    color: #888;
+    text-align: center;
+    margin-top: 1rem;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes rotateIn {
+    from {
+        transform: rotate(-360deg);
+        opacity: 0;
+    }
+    to {
+        transform: rotate(0);
+        opacity: 1;
+    }
+}

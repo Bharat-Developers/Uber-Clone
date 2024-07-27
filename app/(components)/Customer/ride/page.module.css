@@ -1,0 +1,26 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.formContainer {
+    flex: 1;
+    max-width: 400px;
+}
+
+.mapContainer {
+    flex: 2;
+   
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .formContainer, .mapContainer {
+        max-width: 100%;
+    }
+}

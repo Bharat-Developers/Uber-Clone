@@ -1,0 +1,52 @@
+{
+  "name": "uber_clone",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "@google/maps": "^1.1.3",
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.7.2",
+    "chart.js": "^4.4.3",
+    "cookie": "^0.6.0",
+    "express": "^4.19.2",
+    "framer-motion": "^11.2.6",
+    "leaflet": "^1.9.4",
+    "leaflet-routing-machine": "^3.2.12",
+    "mongodb": "^6.6.1",
+    "mongoose": "^8.3.4",
+    "next": "^14.2.4",
+    "next-auth": "^4.24.7",
+    "nodemon": "^3.1.0",
+    "react": "^18",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^7.0.0",
+    "react-dom": "^18",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.23.1",
+    "s2-geometry": "^1.2.10",
+    "socket.io-client": "^4.7.5",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/leaflet": "^1.9.12",
+    "@types/leaflet-routing-machine": "^3.2.8",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-modal": "^3.16.3",
+    "@types/validator": "^13.11.10",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,36 @@
+/* page.module.css */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.portalContainer {
+  flex: 1;
+  overflow: hidden;
+}
+
+.mapContainer {
+  flex: 2;
+  position: relative;
+  margin-left: 500px; /* Adjust the margin as needed */
+  margin-top: -700px;
+  overflow: hidden;
+  
+   /* Reset the top margin */
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .portalContainer, .mapContainer {
+    max-width: 100%;
+    margin-left: 0; /* Reset the left margin */
+    margin-top: 1rem; /* Add some space between elements */
+  }
+}

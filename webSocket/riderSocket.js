@@ -12,7 +12,7 @@ if (parts.length === 2) {
   token = parts.pop().split(';').shift();
 }
 
-const socket = io(`${process.env.NEXT_PUBLIC_LINK}:5002/`, {
+const socket = io(`${process.env.NEXT_PUBLIC_SOCKET_LINK}`, {
   autoConnect: false, auth: {
     token: token,
     role: 'rider'

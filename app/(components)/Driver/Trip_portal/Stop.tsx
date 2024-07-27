@@ -19,7 +19,7 @@ function Stop() {
           if(navigator.geolocation){
             navigator.geolocation.getCurrentPosition(async (position)=>{
               const id = await getS2Id({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-              const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/availableDriver/`, {
+              const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/availableDriver/`, {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function Stop() {
                 ;
               }
              
-              const response3 = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/driver/`, {
+              const response3 = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/driver/`, {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',

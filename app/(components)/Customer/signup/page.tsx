@@ -72,7 +72,7 @@ const Signup: React.FC = () => {
                     startDate,
                     termsAccepted
                 }
-                const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/rider/signUp`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/rider/signUp`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

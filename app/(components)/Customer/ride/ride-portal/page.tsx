@@ -123,7 +123,7 @@ const RidePortalPage: React.FC = () => {
     setTimeout(() => {
       clearCurrentTrip()
       router.replace('/Customer/ride')
-    }, 5000)
+    }, 2000)
   })
 
   socket.on('trip complete', () => {
@@ -136,7 +136,7 @@ const RidePortalPage: React.FC = () => {
     setTimeout(() => {
       clearCurrentTrip()
       router.replace('/Customer/ride')
-    }, 5000)
+    }, 2000)
   })
 
   const onCancel = () => {
@@ -146,7 +146,7 @@ const RidePortalPage: React.FC = () => {
     setTimeout(() => {
       clearCurrentTrip()
       router.replace('/Customer/ride')
-    }, 5000)
+    }, 2000)
   }
   // on cancel button clicked
   // socket.emit('cancel trip-rider', currentTrip)

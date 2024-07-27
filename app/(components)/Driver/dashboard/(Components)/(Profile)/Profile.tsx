@@ -7,7 +7,7 @@ import Left from './left'
 const Profile = () => {
   return (
     <div className='flex justify-center'>
-      <div className='flex justify-around p-5 items-center border w-[80%] m-4 bg-slate-600 rounded '>
+      <div className='flex justify-around p-5 items-center border w-[80%] m-4 bg-slate-900 rounded opacity-100 hover:opacity-90'>
         <div className='h-full'>
           <Profile_Images />
         </div>

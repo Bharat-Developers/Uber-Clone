@@ -9,7 +9,7 @@ const VehicelInfo = ({ Model, Number, isVerified, Owner, Capicity }: { Model: St
                     <h3>Vexhile Model</h3>
                     <h3>Registration No</h3>
                     <h3>Verified</h3>
-                    <h3>Owner</h3>
+                    <h3>{Owner}</h3>
                     <h3>Max Capicity</h3>
                 </div>
                 <div className='flex flex-col'>

@@ -34,7 +34,7 @@ const Left = () => {
        if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(async (position) => {
            const id = await getS2Id({ latitude: position.coords.latitude, longitude: position.coords.longitude });
-           const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/availableDriver/`, {
+           const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/availableDriver/`, {
              method: 'PUT',
              headers: {
                'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ const Left = () => {
            }
 
                  
-           const response3 = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/driver/`, {
+           const response3 = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/driver/`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
@@ -120,12 +120,12 @@ const Left = () => {
         setCookie("GO",true,1)
         setLocation()
       }}>
-        <h1 className='text-4xl'>GO 
+        <h1 className='text-4xl text-slate-50 '>GO 
           <span className={`${isGoActive ? 'arrow-animation' : ''}`}> {`->`} </span>
         </h1>
       </button>
 
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 text-slate-50'>
         {ValueArray.map((items, index) => (
           <div className='border px-2 py-1 flex gap-2 rounded items-center justify-around' key={index}>
             {/* <Image src={}/> */}

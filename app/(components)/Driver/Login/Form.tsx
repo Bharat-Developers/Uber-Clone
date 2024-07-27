@@ -35,7 +35,7 @@ export default function LoginForm() {
       }
       // Navigate to the next page
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/driver/login`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/driver/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

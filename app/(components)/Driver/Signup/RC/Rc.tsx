@@ -49,7 +49,7 @@ export default function Rc() {
       console.log('data sent to driver: ', data);
       try {
         // /api/driver/signUp
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}:5001/api/driver/signUp`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LINK}api/driver/signUp`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

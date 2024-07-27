@@ -33,14 +33,14 @@ export default function Ride() {
               onClick={() => handleSelect('car')}
             >
               <span>Car</span>
-              <Image src="/car.jpeg" height={40} width={40} alt="Car" />
+              <Image src="/car.png" height={40} width={40} alt="Car" />
             </div>
             <div
               className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200"
               onClick={() => handleSelect('auto')}
             >
               <span>Auto</span>
-              <Image src="/auto.jpeg" height={40} width={40} alt="Auto" />
+              <Image src="/auto.png" height={40} width={40} alt="Auto" />
             </div>
             <div
               className="bg-neutral-300 w-96 h-16 mt-2 p-4 rounded cursor-pointer flex items-center justify-between hover:bg-gray-200"
